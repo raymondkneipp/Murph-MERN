@@ -4,10 +4,6 @@ import { Link } from "react-router-dom";
 export const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center flex-1 mx-2">
-      <h2 className="text-3xl font-medium text-white max-w-xs text-center mb-6">
-        <span className="text-blue-500 italic">Enhance</span> Your Fitness With{" "}
-        <span className="text-blue-500 italic">Murph</span>!
-      </h2>
       <div className="bg-gray-800 py-4 px-8 mb-6 shadow rounded-lg flex flex-col items-center max-w-xs w-full box-border">
         <svg
           aria-hidden="true"

@@ -26,20 +26,20 @@ export const Counter = ({ exercise, max }) => {
       <div className="flex justify-between">
         <div className="flex">
           <button
-            className="bg-gray-800 hover:bg-gray-700 shadow rounded-l-full flex items-center justify-center text-sm flex items-center text-gray-500 py-2 px-3"
+            className="bg-gray-800 hover:bg-gray-700 shadow rounded-l-full flex items-center justify-center text-md flex items-center text-gray-500 py-3 px-4"
             onClick={() => handleClick(-10)}
           >
             -10
           </button>
           <button
-            className="bg-gray-800 hover:bg-gray-700 shadow flex items-center justify-center text-sm flex items-center text-gray-500 py-2 px-3"
+            className="bg-gray-800 hover:bg-gray-700 shadow flex items-center justify-center text-md flex items-center text-gray-500 py-3 px-4"
             onClick={() => handleClick(-5)}
           >
             -5
           </button>
 
           <button
-            className="bg-gray-800 hover:bg-gray-700 shadow rounded-r-full flex items-center justify-center text-sm flex items-center text-gray-500 py-2 px-3"
+            className="bg-gray-800 hover:bg-gray-700 shadow rounded-r-full flex items-center justify-center text-md flex items-center text-gray-500 py-3 px-4"
             onClick={() => handleClick(-1)}
           >
             -1
@@ -47,20 +47,20 @@ export const Counter = ({ exercise, max }) => {
         </div>
         <div className="flex">
           <button
-            className="bg-gray-800 hover:bg-gray-700 shadow rounded-l-full flex items-center justify-center text-sm flex items-center text-gray-500 py-2 px-3"
+            className="bg-gray-800 hover:bg-gray-700 shadow rounded-l-full flex items-center justify-center text-md flex items-center text-gray-500 py-3 px-4"
             onClick={() => handleClick(1)}
           >
             +1
           </button>
           <button
-            className="bg-gray-800 hover:bg-gray-700 shadow flex items-center justify-center text-sm flex items-center text-gray-500 py-2 px-3"
+            className="bg-gray-800 hover:bg-gray-700 shadow flex items-center justify-center text-md flex items-center text-gray-500 py-3 px-4"
             onClick={() => handleClick(5)}
           >
             +5
           </button>
 
           <button
-            className="bg-gray-800 hover:bg-gray-700 shadow rounded-r-full flex items-center justify-center text-sm flex items-center text-gray-500 py-2 px-3"
+            className="bg-gray-800 hover:bg-gray-700 shadow rounded-r-full flex items-center justify-center text-md flex items-center text-gray-500 py-3 px-4"
             onClick={() => handleClick(10)}
           >
             +10
