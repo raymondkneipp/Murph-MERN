@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Counter } from "../components/Counter";
 import { Link } from "react-router-dom";
 import { Timer } from "../components/Timer";
 import { Laps } from "../components/Laps";
+import { CounterGroup } from "../components/CounterGroup";
 
 export const Workout = () => {
   const [running, setRunning] = useState(true);
@@ -20,7 +20,6 @@ export const Workout = () => {
 
     if (stage === 1) {
       setLaps([
-        ...laps,
         {
           text: "First Mile",
           time: `${time.minutes}:${time.seconds}.${time.milliSeconds}`
@@ -162,9 +161,7 @@ export const Workout = () => {
       )}
       {stage === 2 && (
         <>
-          <Counter exercise="Pull Ups" max={100} />
-          <Counter exercise="Push Ups" max={200} />
-          <Counter exercise="Squats" max={300} />
+          <CounterGroup />
         </>
       )}
       {stage === 3 && (
