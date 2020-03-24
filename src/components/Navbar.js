@@ -7,7 +7,7 @@ export const Navbar = () => {
       <Link to="/" className="text-6xl font-black text-blue-400 p-2 brand">
         Murph
       </Link>
-      <div className="pb-2">
+      {/* <div className="pb-2">
         <Link className="p-2 m-2 hover:underline text-gray-500" to="/">
           Leaderboards
         </Link>
@@ -20,7 +20,7 @@ export const Navbar = () => {
         >
           Sign Up
         </Link>
-      </div>
+      </div> */}
     </nav>
   );
 };
