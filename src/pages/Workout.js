@@ -1,42 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Counter } from "../components/Counter";
 import { Link } from "react-router-dom";
+import { Timer } from "../components/Timer";
+import { Laps } from "../components/Laps";
 
 export const Workout = () => {
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-
   const [running, setRunning] = useState(true);
+  const [time, setTime] = useState({});
 
   const [stage, setStage] = useState(1);
 
-  useEffect(() => {
-    let interval;
-    if (running) {
-      interval = setInterval(
-        () =>
-          setElapsedTime(prevElapsedTime => {
-            const newElapsedTime = prevElapsedTime + 0.1;
-
-            setMinutes(Math.floor(newElapsedTime / 60));
-            setSeconds(newElapsedTime - Math.floor(newElapsedTime / 60) * 60);
-
-            return newElapsedTime;
-          }),
-        100
-      );
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [running]);
+  const [laps, setLaps] = useState([]);
 
   const handleClick = () => {
     setStage(stage + 1);
     if (stage === 3) {
       setRunning(false);
     }
+
+    if (stage === 1) {
+      setLaps([
+        ...laps,
+        {
+          text: "First Mile",
+          time: `${time.minutes}:${time.seconds}.${time.milliSeconds}`
+        }
+      ]);
+    }
+
+    if (stage === 2) {
+      setLaps([
+        ...laps,
+        {
+          text: "Calisthenics",
+          time: `${time.minutes}:${time.seconds}.${time.milliSeconds}`
+        }
+      ]);
+    }
+
+    if (stage === 3) {
+      setLaps([
+        ...laps,
+        {
+          text: "Second Mile",
+          time: `${time.minutes}:${time.seconds}.${time.milliSeconds}`
+        }
+      ]);
+    }
+  };
+
+  const getTime = time => {
+    setTime(time);
   };
 
   return (
@@ -87,13 +101,15 @@ export const Workout = () => {
           Back
         </button>
       )}
+      <Laps laps={laps} />
+      <Timer running={running} getTime={time => getTime(time)} />
       {stage === 3 && (
         <svg
           aria-hidden="true"
           focusable="false"
           data-prefix="fas"
           data-icon="running"
-          className="w-12 text-blue-500"
+          className="w-12 text-blue-500 mb-6"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 416 512"
@@ -110,7 +126,7 @@ export const Workout = () => {
           focusable="false"
           data-prefix="fas"
           data-icon="running"
-          className="w-12 text-blue-500 mt-6"
+          className="w-12 text-blue-500 mb-6"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 416 512"
@@ -127,7 +143,7 @@ export const Workout = () => {
           focusable="false"
           data-prefix="far"
           data-icon="thumbs-up"
-          className="w-12 text-blue-500"
+          className="w-12 text-blue-500 mb-6"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
@@ -138,17 +154,7 @@ export const Workout = () => {
           ></path>
         </svg>
       )}
-      <h1 className="text-6xl font-black text-blue-400 p-2">
-        {minutes
-          .toFixed(0)
-          .toString()
-          .padStart(2, "0")}
-        :
-        {seconds
-          .toFixed(0)
-          .toString()
-          .padStart(2, "0")}
-      </h1>
+
       {stage === 1 && (
         <h3 className="text-xl font-medium text-gray-100 max-w-xs text-center mb-6">
           First One Mile Run

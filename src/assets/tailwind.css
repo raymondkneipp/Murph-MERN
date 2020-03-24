@@ -9,3 +9,7 @@
 .brand {
   font-family: "Cinzel Decorative";
 }
+
+button {
+  touch-action: manipulation;
+}

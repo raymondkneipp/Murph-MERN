@@ -10918,6 +10918,10 @@ video {
   font-family: "Cinzel Decorative";
 }
 
+button {
+  touch-action: manipulation;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
