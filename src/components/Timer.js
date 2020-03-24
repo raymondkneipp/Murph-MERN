@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { formatTime } from "../util/time";
 
-export const Timer = ({ running, getTime }) => {
-  const [startTime] = useState(new Date());
+export const Timer = ({ running, startTime }) => {
   const [minutes, setMinutes] = useState("00");
   const [seconds, setSeconds] = useState("00");
   const [milliSeconds, setMilliSeconds] = useState("00");
@@ -12,35 +12,30 @@ export const Timer = ({ running, getTime }) => {
       interval = setInterval(() => {
         const currentTime = new Date();
 
-        var secondsPassed = ((currentTime - startTime) / 1000).toFixed(0);
+        // var secondsPassed = ((currentTime - startTime) / 1000).toFixed(0);
 
-        setMinutes(
-          Math.floor(secondsPassed / 60)
-            .toString()
-            .padStart(2, "0")
-        );
-        setSeconds(
-          (secondsPassed - Math.floor(secondsPassed / 60) * 60)
-            .toString()
-            .padStart(2, "0")
-        );
-        setMilliSeconds((currentTime - startTime).toString().slice(-3, -1));
+        // setMinutes(
+        //   Math.floor(secondsPassed / 60)
+        //     .toString()
+        //     .padStart(2, "0")
+        // );
+        // setSeconds(
+        //   (secondsPassed - Math.floor(secondsPassed / 60) * 60)
+        //     .toString()
+        //     .padStart(2, "0")
+        // );
+        // setMilliSeconds((currentTime - startTime).toString().slice(-3, -1));
 
-        getTime({
-          minutes: Math.floor(secondsPassed / 60)
-            .toString()
-            .padStart(2, "0"),
-          seconds: (secondsPassed - Math.floor(secondsPassed / 60) * 60)
-            .toString()
-            .padStart(2, "0"),
-          milliSeconds: (currentTime - startTime).toString().slice(-3, -1)
-        });
+        const time = formatTime(startTime, currentTime);
+        setMinutes(time["minutes"]);
+        setSeconds(time["seconds"]);
+        setMilliSeconds(time["milliseconds"]);
       }, 10);
     }
     return () => {
       clearInterval(interval);
     };
-  }, [running, startTime, getTime]);
+  }, [running, startTime]);
 
   return (
     <div>

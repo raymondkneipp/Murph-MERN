@@ -5,8 +5,8 @@ import { Laps } from "../components/Laps";
 import { CounterGroup } from "../components/CounterGroup";
 
 export const Workout = () => {
+  const [startTime] = useState(new Date());
   const [running, setRunning] = useState(true);
-  const [time, setTime] = useState({});
 
   const [stage, setStage] = useState(1);
 
@@ -22,7 +22,7 @@ export const Workout = () => {
       setLaps([
         {
           text: "First Mile",
-          time: `${time.minutes}:${time.seconds}.${time.milliSeconds}`
+          time: { start: startTime, finish: new Date() }
         }
       ]);
     }
@@ -32,7 +32,10 @@ export const Workout = () => {
         ...laps,
         {
           text: "Calisthenics",
-          time: `${time.minutes}:${time.seconds}.${time.milliSeconds}`
+          time: {
+            start: laps[0].time.finish,
+            finish: new Date()
+          }
         }
       ]);
     }
@@ -42,14 +45,13 @@ export const Workout = () => {
         ...laps,
         {
           text: "Second Mile",
-          time: `${time.minutes}:${time.seconds}.${time.milliSeconds}`
+          time: {
+            start: laps[1].time.finish,
+            finish: new Date()
+          }
         }
       ]);
     }
-  };
-
-  const getTime = time => {
-    setTime(time);
   };
 
   return (
@@ -100,8 +102,31 @@ export const Workout = () => {
           Back
         </button>
       )}
+      {stage === 4 && (
+        <Link
+          to="/"
+          className="text-sm text-gray-500 hover:underline mt-3 flex items-center"
+        >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="arrow-left"
+            className="w-3 inline mr-1 text-gray-500"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+          >
+            <path
+              fill="currentColor"
+              d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"
+            ></path>
+          </svg>
+          Back to Home
+        </Link>
+      )}
       <Laps laps={laps} />
-      <Timer running={running} getTime={time => getTime(time)} />
+      <Timer running={running} startTime={startTime} />
       {stage === 3 && (
         <svg
           aria-hidden="true"
