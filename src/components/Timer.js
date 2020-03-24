@@ -44,7 +44,7 @@ export const Timer = ({ running, getTime }) => {
 
   return (
     <div>
-      <h1 className="text-6xl font-black text-blue-400 p-2">
+      <h1 className="text-6xl font-black text-blue-400 p-2 font-mono">
         {minutes}:{seconds}.{milliSeconds}
       </h1>
     </div>
