@@ -10,6 +10,7 @@
   font-family: "Cinzel Decorative";
 }
 
-button {
+* {
   touch-action: manipulation;
+  user-select: none;
 }
