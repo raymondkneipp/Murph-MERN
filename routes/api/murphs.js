@@ -14,19 +14,11 @@ router.post(
   [
     auth,
     [
-      check("mileOneTime", "Time is required")
-        .not()
-        .isEmpty(),
-      check("calisthenicsTime", "Time is required")
-        .not()
-        .isEmpty(),
-      check("mileTwoTime", "Time is required")
-        .not()
-        .isEmpty(),
-      check("totalTime", "Time is required")
-        .not()
-        .isEmpty()
-    ]
+      check("mileOneTime", "Time is required").not().isEmpty(),
+      check("calisthenicsTime", "Time is required").not().isEmpty(),
+      check("mileTwoTime", "Time is required").not().isEmpty(),
+      check("totalTime", "Time is required").not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -40,10 +32,15 @@ router.post(
         mileOneTime: req.body.mileOneTime,
         calisthenicsTime: req.body.calisthenicsTime,
         mileTwoTime: req.body.mileTwoTime,
-        totalTime: req.body.totalTime
+        totalTime: req.body.totalTime,
       });
 
       const murph = await newMurph.save();
+
+      // Add Id of new murph to user murphs array
+      const user = await User.findById(req.user.id);
+      user.murphs.push(murph._id);
+      await user.save();
 
       res.json(murph);
     } catch (error) {
@@ -59,9 +56,24 @@ router.post(
 router.get("/", async (req, res) => {
   try {
     const murphs = await Murph.find()
-      .sort({ date: -1 })
+      .sort({ totalTime: 1 })
       .populate("user", { fname: 1, lname: 1 });
     res.json(murphs);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route		GET api/murphs/id
+// @desc		Get all murphs from specific user
+// @access	Public
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select("murphs")
+      .populate("murphs");
+    res.json(user);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");
