@@ -5,7 +5,7 @@ import { AuthContext } from "../Store";
 
 export const Navbar = () => {
   const { state } = useContext(AuthContext);
-  const { isAuthenticated } = state;
+  const { isAuthenticated, user } = state;
 
   return (
     <nav className="flex flex-col items-center justify-between bg-gray-900 shadow p-2">
@@ -52,6 +52,14 @@ export const Navbar = () => {
           >
             Sign Out
           </Link>
+        </div>
+      )}
+
+      {isAuthenticated && user && (
+        <div className="pb-2">
+          <h6 className="mt-2 text-gray-700">
+            Welcome {user.fname} {user.lname}
+          </h6>
         </div>
       )}
     </nav>

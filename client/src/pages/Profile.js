@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../Store";
 
 export const Profile = ({ history }) => {
@@ -15,17 +14,19 @@ export const Profile = ({ history }) => {
   return (
     <div className="flex flex-col items-center justify-center flex-1 mx-2">
       <div className="bg-gray-800 py-4 px-8 mb-6 shadow rounded-lg flex flex-col items-center max-w-xs w-full box-border">
-        <h3 className="text-xl font-medium text-gray-100 max-w-xs text-center mb-2">
-          Welcome {state.user && state.user.fname}{" "}
-          {state.user && state.user.lname}
+        <h3 className="text-2xl font-medium text-gray-100 max-w-xs text-center mb-2">
+          {state.user && state.user.fname}{" "}
+          <span className="text-base text-gray-500">
+            {state.user && state.user.lname}
+          </span>
         </h3>
+        <h4 className="text-gray-100 text-center mb-2">
+          Joined:{" "}
+          <span className="text-gray-500">
+            {state.user && new Date(state.user.date).toDateString()}
+          </span>
+        </h4>
       </div>
-      <Link
-        to="/workout"
-        className="bg-blue-400 shadow rounded-full py-4 px-6 text-lg hover:underline text-gray-900"
-      >
-        Begin Workout
-      </Link>
     </div>
   );
 };

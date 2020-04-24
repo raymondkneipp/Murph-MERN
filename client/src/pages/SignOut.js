@@ -6,7 +6,6 @@ export const SignOut = ({ history }) => {
   const { isAuthenticated } = state;
 
   useEffect(() => {
-    console.log("yo");
     if (!isAuthenticated) {
       history.push("/signin");
     } else {
@@ -15,7 +14,7 @@ export const SignOut = ({ history }) => {
       });
       history.push("/");
     }
-  }, [isAuthenticated, history]);
+  }, [isAuthenticated, history, dispatch]);
 
   return <h1>Bye</h1>;
 };

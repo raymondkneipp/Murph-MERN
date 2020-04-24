@@ -1,49 +1,26 @@
-import React, { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../Store";
-import { Errors } from "../components/Errors";
+import React, { useEffect, useState } from "react";
 
-export const Leaderboards = ({ history }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+export const Leaderboards = () => {
+  const [murphs, setMurphs] = useState([]);
 
-  const { dispatch, state } = useContext(AuthContext);
-  const { isAuthenticated } = state;
-
-  useEffect(() => {}, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      let res = await fetch("/api/auth", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      let data = await res.json();
-
-      if (res.ok) {
-        setErrors([]);
-        dispatch({
-          type: "LOGIN",
-          payload: data,
+  useEffect(() => {
+    async function fetchMurphs() {
+      try {
+        let res = await fetch("/api/murphs", {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
 
-        history.push("/profile");
-      } else {
-        throw data;
+        let data = await res.json();
+        setMurphs(data);
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      setErrors(error["errors"]);
     }
-  };
+    fetchMurphs();
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center flex-1 mx-2">
@@ -51,7 +28,32 @@ export const Leaderboards = ({ history }) => {
         <h3 className="text-xl font-medium text-gray-100 max-w-xs text-center mb-2">
           Leaderboards
         </h3>
-        <h6>No Scores</h6>
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>1st Mile</th>
+              <th>Calisthenics</th>
+              <th>2nd Mile</th>
+              <th>Total Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {murphs.map((murph) => {
+              return (
+                <tr key={murph._id}>
+                  <td>
+                    {murph.user.fname} {murph.user.lname}
+                  </td>
+                  <td>{murph.mileOneTime}</td>
+                  <td>{murph.calisthenicsTime}</td>
+                  <td>{murph.mileTwoTime}</td>
+                  <td>{murph.totalTime}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );

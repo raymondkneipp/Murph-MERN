@@ -13,6 +13,7 @@ import { Leaderboards } from "./pages/Leaderboards";
 
 function App() {
   const { dispatch } = useContext(AuthContext);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +43,7 @@ function App() {
       }
     };
     fetchData();
-  }, [dispatch, localStorage.getItem("token")]);
+  }, [dispatch, token]);
 
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col">

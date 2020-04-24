@@ -3,8 +3,8 @@ import { AuthContext } from "../Store";
 import { Errors } from "../components/Errors";
 
 export const SignIn = ({ history }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ray@kay.com");
+  const [password, setPassword] = useState("123456");
   const [errors, setErrors] = useState([]);
 
   const { dispatch, state } = useContext(AuthContext);
