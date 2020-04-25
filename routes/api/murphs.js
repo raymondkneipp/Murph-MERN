@@ -72,8 +72,11 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
       .select("murphs")
-      .populate("murphs");
-    res.json(user);
+      .populate(
+        "murphs",
+        "_id mileOneTime calisthenicsTime mileTwoTime totalTime date"
+      );
+    res.json(user.murphs);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");
