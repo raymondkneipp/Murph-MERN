@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../Store";
+import logo from "../assets/img/logo.svg";
 
 export const Navbar = () => {
   const { state } = useContext(AuthContext);
@@ -9,8 +10,8 @@ export const Navbar = () => {
 
   return (
     <nav className="flex flex-col items-center justify-between bg-gray-900 shadow p-2">
-      <Link to="/" className="text-6xl font-black text-blue-400 p-2 brand">
-        Murph
+      <Link to="/" className="text-6xl font-black text-blue-400 p-2 mb-2">
+        <img src={logo} alt="Murph" className="w-40" />
       </Link>
       <div className="pb-3">
         <Link className="p-2 m-2 hover:underline text-gray-500" to="/">
