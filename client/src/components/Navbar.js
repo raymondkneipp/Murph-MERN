@@ -1,68 +1,113 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../Store";
 import logo from "../assets/img/logo.svg";
+import { Container } from "./Container";
+
+const Nav = styled.nav`
+  background-color: #1a202c;
+  box-shadow: 0 0 0.2rem #090c10;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  & .logo {
+    & img {
+      width: 100%;
+      height: auto;
+      max-width: 5rem;
+    }
+  }
+`;
+
+const LinksList = styled.div`
+  display: flex;
+  align-items: center;
+
+  & a {
+    color: #a0aec0;
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 0.5rem;
+
+    &.active {
+      color: white;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.primaryButton {
+      border: 0.1rem solid #63b3ed;
+      color: #63b3ed;
+      border-radius: 5rem;
+      padding: 0.4rem 0.6rem;
+    }
+
+    &.secondaryButton {
+      border: 0.1rem solid #fc8181;
+      color: #fc8181;
+      border-radius: 5rem;
+      padding: 0.4rem 0.6rem;
+    }
+  }
+`;
+
+const Greeting = styled.div`
+  color: #4a5568;
+  padding-right: 1rem;
+  margin-right: 0.5rem;
+  font-style: italic;
+  border-right: 1px solid #4a5568;
+`;
 
 export const Navbar = () => {
   const { state } = useContext(AuthContext);
   const { isAuthenticated, user } = state;
 
   return (
-    <nav className="flex flex-col items-center justify-between bg-gray-900 shadow p-2">
-      <Link to="/" className="text-6xl font-black text-blue-400 p-2 mb-2">
-        <img src={logo} alt="Murph" className="w-40" />
-      </Link>
-      <div className="pb-3">
-        <Link className="p-2 m-2 hover:underline text-gray-500" to="/">
-          Home
-        </Link>
-        <Link
-          className="p-2 m-2 hover:underline text-gray-500"
-          to="/leaderboards"
-        >
-          Leaderboards
-        </Link>
-      </div>
+    <Nav>
+      <Container>
+        <NavLink to="/" className="logo">
+          <img src={logo} alt="Murph" />
+        </NavLink>
 
-      {!isAuthenticated && (
-        <div className="pb-2">
-          <Link
-            className="p-2 m-2 hover:underline text-gray-500 whitespace-no-wrap"
-            to="/signin"
-          >
-            Sign In
-          </Link>
-          <Link
-            className="p-2 m-2 hover:underline text-blue-400 border border-blue-400 rounded-full whitespace-no-wrap"
-            to="/signup"
-          >
-            Sign Up
-          </Link>
-        </div>
-      )}
+        <LinksList>
+          {isAuthenticated && user && (
+            <Greeting>
+              Welcome {user.fname} {user.lname}
+            </Greeting>
+          )}
+          <NavLink to="/" exact>
+            Home
+          </NavLink>
+          <NavLink to="/leaderboards">Leaderboards</NavLink>
 
-      {isAuthenticated && (
-        <div className="pb-2">
-          <Link className="p-2 m-2 hover:underline text-gray-500" to="/profile">
-            Profile
-          </Link>
-          <Link
-            className="p-2 m-2 hover:underline text-red-400 border border-red-400 rounded-full whitespace-no-wrap"
-            to="/signout"
-          >
-            Sign Out
-          </Link>
-        </div>
-      )}
+          {!isAuthenticated && (
+            <>
+              <NavLink to="/signin">Sign In</NavLink>
+              <NavLink to="/signup" className="primaryButton">
+                Sign Up
+              </NavLink>
+            </>
+          )}
 
-      {isAuthenticated && user && (
-        <div className="pb-2">
-          <h6 className="mt-2 text-gray-700">
-            Welcome {user.fname} {user.lname}
-          </h6>
-        </div>
-      )}
-    </nav>
+          {isAuthenticated && (
+            <>
+              <NavLink to="/profile">Profile</NavLink>
+              <NavLink className="secondaryButton" to="/signout">
+                Sign Out
+              </NavLink>
+            </>
+          )}
+        </LinksList>
+      </Container>
+    </Nav>
   );
 };
