@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../Store";
+import styled from "styled-components";
 import logo from "../assets/img/logo.svg";
+import menu from "../assets/img/menu.svg";
+import { AuthContext } from "../Store";
 import { Container } from "./Container";
 
 const Nav = styled.nav`
@@ -14,20 +14,37 @@ const Nav = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   & .logo {
     & img {
       width: 100%;
       height: auto;
-      max-width: 5rem;
+      max-width: 4rem;
     }
   }
 `;
 
 const LinksList = styled.div`
-  display: flex;
   align-items: center;
+  display: none;
+  flex-direction: column;
+  flex-basis: 100%;
+
+  @media (min-width: 48em) {
+    flex-direction: row;
+    justify-content: center;
+    flex-basis: auto;
+  }
+
+  @media (min-width: 48em) {
+    display: flex;
+  }
+
+  &.open {
+    display: flex;
+  }
 
   & a {
     color: #a0aec0;
@@ -64,12 +81,35 @@ const Greeting = styled.div`
   padding-right: 1rem;
   margin-right: 0.5rem;
   font-style: italic;
-  border-right: 1px solid #4a5568;
+  border-right: 0.1rem solid #4a5568;
+  display: flex;
+  align-items: center;
+
+  @media (min-width: 48em) {
+    border-right: 0;
+  }
+`;
+
+const Menu = styled.div`
+  display: block;
+  display: flex;
+
+  & > img {
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  @media (min-width: 48em) {
+    & > img {
+      display: none;
+    }
+  }
 `;
 
 export const Navbar = () => {
   const { state } = useContext(AuthContext);
   const { isAuthenticated, user } = state;
+  const [open, setOpen] = useState(false);
 
   return (
     <Nav>
@@ -78,12 +118,16 @@ export const Navbar = () => {
           <img src={logo} alt="Murph" />
         </NavLink>
 
-        <LinksList>
-          {isAuthenticated && user && (
-            <Greeting>
-              Welcome {user.fname} {user.lname}
-            </Greeting>
+        <Menu>
+          {isAuthenticated && user ? (
+            <Greeting>Welcome {user.fname}</Greeting>
+          ) : (
+            <Greeting>Welcome Guest</Greeting>
           )}
+          <img src={menu} alt="Menu" onClick={() => setOpen(!open)} />
+        </Menu>
+
+        <LinksList className={open ? "open" : ""}>
           <NavLink to="/" exact>
             Home
           </NavLink>

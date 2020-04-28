@@ -8,8 +8,8 @@ const Wrapper = styled.div`
   padding: 1rem;
   overflow-x: hidden;
 
-  border-style: dashed;
-  border-width: 0rem;
+  border-style: solid;
+  border-top-width: 0rem;
 
   @media (min-width: 24em) {
     border-color: red;
