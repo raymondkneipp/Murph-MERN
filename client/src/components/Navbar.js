@@ -1,8 +1,17 @@
+import {
+  faBars,
+  faChartPie,
+  faHome,
+  faSignInAlt,
+  faSignOutAlt,
+  faTrophy,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/img/logo.svg";
-import menu from "../assets/img/menu.svg";
 import { AuthContext } from "../Store";
 import { Container } from "./Container";
 
@@ -13,11 +22,13 @@ const Nav = styled.nav`
   & > div {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   & .logo {
+    justify-self: flex-start;
+
     & img {
       width: 100%;
       height: auto;
@@ -27,15 +38,17 @@ const Nav = styled.nav`
 `;
 
 const LinksList = styled.div`
-  align-items: center;
+  align-items: flex-start;
   display: none;
   flex-direction: column;
   flex-basis: 100%;
+  margin-top: 0.5rem;
 
   @media (min-width: 48em) {
     flex-direction: row;
     justify-content: center;
     flex-basis: auto;
+    margin-top: 0;
   }
 
   @media (min-width: 48em) {
@@ -51,13 +64,18 @@ const LinksList = styled.div`
     text-decoration: none;
     white-space: nowrap;
     padding: 0.5rem;
+    transition: all 0.2s;
+
+    & svg {
+      margin-right: 0.2rem;
+    }
 
     &.active {
       color: white;
     }
 
     &:hover {
-      text-decoration: underline;
+      color: white;
     }
 
     &.primaryButton {
@@ -65,6 +83,12 @@ const LinksList = styled.div`
       color: #63b3ed;
       border-radius: 5rem;
       padding: 0.4rem 0.6rem;
+      transition: all 0.2s;
+
+      &:hover {
+        color: #1a202c;
+        background-color: #63b3ed;
+      }
     }
 
     &.secondaryButton {
@@ -72,35 +96,34 @@ const LinksList = styled.div`
       color: #fc8181;
       border-radius: 5rem;
       padding: 0.4rem 0.6rem;
+
+      &:hover {
+        color: #1a202c;
+        background-color: #fc8181;
+      }
     }
   }
 `;
 
 const Greeting = styled.div`
   color: #4a5568;
-  padding-right: 1rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   font-style: italic;
-  border-right: 0.1rem solid #4a5568;
   display: flex;
   align-items: center;
-
-  @media (min-width: 48em) {
-    border-right: 0;
-  }
 `;
 
 const Menu = styled.div`
-  display: block;
   display: flex;
+  align-items: center;
 
-  & > img {
+  & > svg {
     cursor: pointer;
-    padding: 0.5rem;
+    color: #a0aec0;
   }
 
   @media (min-width: 48em) {
-    & > img {
+    & > svg {
       display: none;
     }
   }
@@ -114,38 +137,53 @@ export const Navbar = () => {
   return (
     <Nav>
       <Container>
-        <NavLink to="/" className="logo">
+        <NavLink to="/" className="logo" onClick={() => setOpen(false)}>
           <img src={logo} alt="Murph" />
         </NavLink>
 
         <Menu>
-          {isAuthenticated && user ? (
-            <Greeting>Welcome {user.fname}</Greeting>
-          ) : (
-            <Greeting>Welcome Guest</Greeting>
-          )}
-          <img src={menu} alt="Menu" onClick={() => setOpen(!open)} />
+          {isAuthenticated && user && <Greeting>Welcome {user.fname}</Greeting>}
+          <FontAwesomeIcon
+            icon={faBars}
+            onClick={() => setOpen(!open)}
+            size="lg"
+          />
         </Menu>
 
         <LinksList className={open ? "open" : ""}>
-          <NavLink to="/" exact>
-            Home
+          <NavLink to="/" exact onClick={() => setOpen(false)}>
+            <FontAwesomeIcon icon={faHome} /> Home
           </NavLink>
-          <NavLink to="/leaderboards">Leaderboards</NavLink>
+          <NavLink to="/leaderboards" onClick={() => setOpen(false)}>
+            <FontAwesomeIcon icon={faTrophy} /> Leaderboards
+          </NavLink>
 
           {!isAuthenticated && (
             <>
-              <NavLink to="/signin">Sign In</NavLink>
-              <NavLink to="/signup" className="primaryButton">
-                Sign Up
+              <NavLink to="/signin" onClick={() => setOpen(false)}>
+                <FontAwesomeIcon icon={faSignInAlt} /> Sign In
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="primaryButton"
+                onClick={() => setOpen(false)}
+              >
+                <FontAwesomeIcon icon={faUserPlus} /> Sign Up
               </NavLink>
             </>
           )}
 
           {isAuthenticated && (
             <>
-              <NavLink to="/profile">Profile</NavLink>
-              <NavLink className="secondaryButton" to="/signout">
+              <NavLink to="/profile" onClick={() => setOpen(false)}>
+                <FontAwesomeIcon icon={faChartPie} /> Profile
+              </NavLink>
+              <NavLink
+                className="secondaryButton"
+                to="/signout"
+                onClick={() => setOpen(false)}
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} />
                 Sign Out
               </NavLink>
             </>

@@ -1,3 +1,5 @@
+import { faHourglassStart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -22,9 +24,9 @@ export const Home = () => {
       </div>
       <Link
         to="/workout"
-        className="bg-blue-400 shadow rounded-full py-4 px-6 text-lg hover:underline text-gray-900"
+        className="shadow rounded-full py-4 px-6 text-lg border-2 border-solid border-blue-400 text-blue-400"
       >
-        Begin Workout
+        <FontAwesomeIcon icon={faHourglassStart} /> Begin Workout
       </Link>
     </div>
   );
