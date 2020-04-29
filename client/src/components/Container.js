@@ -6,9 +6,10 @@ const Wrapper = styled.div`
   margin: auto;
   box-sizing: border-box;
   padding: 1rem;
-  overflow-x: hidden;
+  overflow: hidden;
 
   border-style: solid;
+  border-width: 0;
   border-top-width: 0rem;
 
   @media (min-width: 24em) {

@@ -1,15 +1,22 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Home } from "./pages/Home";
+import styled from "styled-components";
 import { Navbar } from "./components/Navbar";
-import { Workout } from "./pages/Workout";
-import { SignUp } from "./pages/SignUp";
-import { SignIn } from "./pages/SignIn";
-import { Profile } from "./pages/Profile";
-
-import { AuthContext } from "./Store";
-import { SignOut } from "./pages/SignOut";
+import { Home } from "./pages/Home";
 import { Leaderboards } from "./pages/Leaderboards";
+import { Profile } from "./pages/Profile";
+import { SignIn } from "./pages/SignIn";
+import { SignOut } from "./pages/SignOut";
+import { SignUp } from "./pages/SignUp";
+import { Workout } from "./pages/Workout";
+import { AuthContext } from "./Store";
+
+const Wrapper = styled.div`
+  background-color: #1a202c;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
 
 function App() {
   const { dispatch } = useContext(AuthContext);
@@ -46,7 +53,7 @@ function App() {
   }, [dispatch, token]);
 
   return (
-    <div className="bg-gray-900 min-h-screen flex flex-col">
+    <Wrapper>
       <Router>
         <Navbar />
         <Switch>
@@ -59,7 +66,7 @@ function App() {
           <Route exact path="/leaderboards" component={Leaderboards} />
         </Switch>
       </Router>
-    </div>
+    </Wrapper>
   );
 }
 

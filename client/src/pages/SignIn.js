@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../Store";
+import React, { useContext, useEffect, useState } from "react";
 import { Errors } from "../components/Errors";
+import { AuthContext } from "../Store";
 
 export const SignIn = ({ history }) => {
-  const [email, setEmail] = useState("ray@kay.com");
+  const [email, setEmail] = useState("raymond.f.kneipp@gmail.com");
   const [password, setPassword] = useState("123456");
   const [errors, setErrors] = useState([]);
 
