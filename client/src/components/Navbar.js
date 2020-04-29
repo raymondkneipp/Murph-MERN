@@ -30,9 +30,8 @@ const Nav = styled.nav`
     justify-self: flex-start;
 
     & img {
-      width: 100%;
       height: auto;
-      max-width: 4rem;
+      width: 4rem;
     }
   }
 `;
@@ -65,6 +64,9 @@ const LinksList = styled.div`
     white-space: nowrap;
     padding: 0.5rem;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    margin: 0.3rem 0.2rem;
 
     & svg {
       margin-right: 0.2rem;
@@ -154,8 +156,8 @@ export const Navbar = () => {
           <NavLink to="/" exact onClick={() => setOpen(false)}>
             <FontAwesomeIcon icon={faHome} /> Home
           </NavLink>
-          <NavLink to="/leaderboards" onClick={() => setOpen(false)}>
-            <FontAwesomeIcon icon={faTrophy} /> Leaderboards
+          <NavLink to="/leaderboard" onClick={() => setOpen(false)}>
+            <FontAwesomeIcon icon={faTrophy} /> Leaderboard
           </NavLink>
 
           {!isAuthenticated && (

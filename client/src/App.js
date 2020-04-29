@@ -1,9 +1,14 @@
 import React, { useContext, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import styled from "styled-components";
 import { Navbar } from "./components/Navbar";
 import { Home } from "./pages/Home";
-import { Leaderboards } from "./pages/Leaderboards";
+import { Leaderboard } from "./pages/Leaderboard";
 import { Profile } from "./pages/Profile";
 import { SignIn } from "./pages/SignIn";
 import { SignOut } from "./pages/SignOut";
@@ -63,7 +68,8 @@ function App() {
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/signout" component={SignOut} />
-          <Route exact path="/leaderboards" component={Leaderboards} />
+          <Route exact path="/leaderboard" component={Leaderboard} />
+          <Route render={() => <Redirect to="/" />} />
         </Switch>
       </Router>
     </Wrapper>
