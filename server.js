@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -9,6 +10,7 @@ connectDB();
 
 // Initialize middleware
 app.use(express.json());
+app.use(cors());
 
 // Define routes
 app.use("/api/users", require("./routes/api/users"));

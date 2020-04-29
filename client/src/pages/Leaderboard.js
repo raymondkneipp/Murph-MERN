@@ -114,7 +114,13 @@ export const Leaderboard = () => {
                   <td>
                     {murph.user.fname} {murph.user.lname}
                   </td>
-                  <td>{murph.totalTime}</td>
+                  <td>
+                    {
+                      new Date(murph.totalTime * 1000)
+                        .toUTCString()
+                        .match(/(\d\d:\d\d:\d\d)/)[0]
+                    }
+                  </td>
                   <td>
                     {new Intl.DateTimeFormat("en-US", {
                       year: "numeric",

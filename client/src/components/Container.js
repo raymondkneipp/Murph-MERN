@@ -10,7 +10,6 @@ const Wrapper = styled.div`
 
   border-style: solid;
   border-width: 0;
-  border-top-width: 0rem;
 
   @media (min-width: 24em) {
     border-color: red;
