@@ -1,4 +1,7 @@
-import { faCircle, faHourglassStart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDotCircle,
+  faHourglassStart,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -9,12 +12,35 @@ const List = styled.ul`
   list-style: none;
   padding: 1rem 0;
   margin: 1rem;
-  border-left: 0.2rem solid #a0aec0;
+  /* border-left: 0.2rem solid #a0aec0; */
 
   & li {
-    margin-left: -0.75rem;
-    margin-bottom: 2rem;
+    /* margin-left: -0.75rem; */
+    /* margin-bottom: 2rem; */
+    margin-bottom: 0.5rem;
     color: #a0aec0;
+
+    &::before {
+      content: " ";
+      display: inline-block;
+      position: relative;
+      top: 2.1rem;
+      left: 0.8rem;
+      width: 0.3rem;
+      height: 2rem;
+      background-color: #a0aec0;
+    }
+
+    &:last-child::before {
+      content: " ";
+      display: inline-block;
+      position: relative;
+      top: 2.1rem;
+      left: 0.8rem;
+      width: 0.3rem;
+      height: 2rem;
+      background-color: transparent;
+    }
 
     & svg {
       margin-right: 1rem;
@@ -70,24 +96,24 @@ export const Home = () => {
         <h1>The Murph Workout</h1>
         <List>
           <li>
-            <FontAwesomeIcon icon={faCircle} size="lg" color="#a0aec0" /> 1 Mile
-            Run
+            <FontAwesomeIcon icon={faDotCircle} size="lg" color="#a0aec0" /> 1
+            Mile Run
           </li>
           <li>
-            <FontAwesomeIcon icon={faCircle} size="lg" color="#a0aec0" /> 100
+            <FontAwesomeIcon icon={faDotCircle} size="lg" color="#a0aec0" /> 100
             Pull Ups
           </li>
           <li>
-            <FontAwesomeIcon icon={faCircle} size="lg" color="#a0aec0" /> 200
+            <FontAwesomeIcon icon={faDotCircle} size="lg" color="#a0aec0" /> 200
             Push Ups
           </li>
           <li>
-            <FontAwesomeIcon icon={faCircle} size="lg" color="#a0aec0" /> 300
+            <FontAwesomeIcon icon={faDotCircle} size="lg" color="#a0aec0" /> 300
             Squats
           </li>
           <li>
-            <FontAwesomeIcon icon={faCircle} size="lg" color="#a0aec0" /> 1 Mile
-            Run
+            <FontAwesomeIcon icon={faDotCircle} size="lg" color="#a0aec0" /> 1
+            Mile Run
           </li>
         </List>
 
