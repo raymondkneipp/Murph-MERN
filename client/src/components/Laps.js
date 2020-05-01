@@ -12,6 +12,7 @@ const LapsStyle = styled.div`
   padding: 0.8rem 1rem;
   border-radius: 0.6rem;
   margin: 0.5rem;
+  box-sizing: border-box;
 
   & h4 {
     font-size: 1rem;
