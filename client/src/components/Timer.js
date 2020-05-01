@@ -1,5 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { formatTime } from "../util/time";
+
+const TimerStyle = styled.div`
+  color: #63b3ed;
+  font-weight: bold;
+  font-size: 4rem;
+  text-align: center;
+  margin: 2rem 0;
+`;
 
 export const Timer = ({ running, startTime }) => {
   const [minutes, setMinutes] = useState("00");
@@ -11,22 +20,8 @@ export const Timer = ({ running, startTime }) => {
     if (running) {
       interval = setInterval(() => {
         const currentTime = new Date();
-
-        // var secondsPassed = ((currentTime - startTime) / 1000).toFixed(0);
-
-        // setMinutes(
-        //   Math.floor(secondsPassed / 60)
-        //     .toString()
-        //     .padStart(2, "0")
-        // );
-        // setSeconds(
-        //   (secondsPassed - Math.floor(secondsPassed / 60) * 60)
-        //     .toString()
-        //     .padStart(2, "0")
-        // );
-        // setMilliSeconds((currentTime - startTime).toString().slice(-3, -1));
-
         const time = formatTime(startTime, currentTime);
+
         setMinutes(time["minutes"]);
         setSeconds(time["seconds"]);
         setMilliSeconds(time["milliseconds"]);
@@ -38,10 +33,8 @@ export const Timer = ({ running, startTime }) => {
   }, [running, startTime]);
 
   return (
-    <div>
-      <h1 className="text-6xl font-black text-blue-400 p-2 font-mono">
-        {minutes}:{seconds}.{milliSeconds}
-      </h1>
-    </div>
+    <TimerStyle>
+      {minutes}:{seconds}.{milliSeconds}
+    </TimerStyle>
   );
 };
