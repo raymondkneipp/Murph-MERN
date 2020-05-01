@@ -38,6 +38,7 @@ const WorkoutStyle = styled.div`
     text-decoration: none;
     transition: all 0.2s;
     font-size: 0.9rem;
+    margin: 1rem 0;
 
     &:hover {
       color: white;
@@ -75,6 +76,7 @@ const BackButton = styled.button`
   border: 0;
   background-color: transparent;
   cursor: pointer;
+  margin: 1rem 0;
 
   &:hover {
     color: white;

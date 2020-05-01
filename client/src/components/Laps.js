@@ -1,24 +1,47 @@
 import React from "react";
+import styled from "styled-components";
 import { formatTime } from "../util/time";
+
+const LapsStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 24rem;
+  background-color: #2d3748;
+  padding: 0.8rem 1rem;
+  border-radius: 0.6rem;
+  margin: 0.5rem;
+
+  & h4 {
+    font-size: 1rem;
+    color: #a0aec0;
+    margin: 0;
+    font-weight: normal;
+  }
+
+  & h3 {
+    font-size: 1.2rem;
+    color: white;
+    margin: 0;
+  }
+`;
 
 export const Laps = ({ laps }) => {
   return (
     <>
-      {laps.map(lap => {
+      {laps.map((lap) => {
         const { minutes, seconds } = formatTime(
           lap.time.start,
           lap.time.finish
         );
         return (
-          <div
-            key={lap.text}
-            className="shadow bg-gray-800 max-w-xs flex items-center justify-between w-full max-w-xs rounded-lg px-3 py-2 my-2"
-          >
+          <LapsStyle key={lap.text}>
             <h4 className="text-sm text-gray-500">{lap.text}</h4>
             <h3 className="text-lg text-white font-bold">
               {minutes}:{seconds}
             </h3>
-          </div>
+          </LapsStyle>
         );
       })}
     </>
