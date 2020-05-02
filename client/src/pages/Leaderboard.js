@@ -25,6 +25,18 @@ const Table = styled.table`
   margin: auto;
   border-collapse: collapse;
 
+  & tr th:nth-child(1),
+  & tr td:nth-child(1) {
+    display: none;
+  }
+
+  @media (min-width: 24em) {
+    & tr th:nth-child(1),
+    & tr td:nth-child(1) {
+      display: table-cell;
+    }
+  }
+
   & > thead {
     color: #63b3ed;
   }
