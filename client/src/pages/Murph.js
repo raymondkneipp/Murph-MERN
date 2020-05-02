@@ -15,9 +15,36 @@ const MurphStyle = styled.div`
   }
 `;
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  grid-column-gap: 1rem;
+  grid-row-gap: 0.5rem;
+
+  & h3 {
+    color: #63b3ed;
+    text-align: right;
+    margin: 0rem;
+  }
+
+  & p {
+    margin: 0;
+    padding: 1rem;
+    color: #a0aec0;
+  }
+`;
+
 export const Murph = () => {
   const { id } = useParams();
-  const [murph, setMurph] = useState({});
+
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [mileOneTime, setMileOneTime] = useState(0);
+  const [calisthenicsTime, setCalisthenicsTime] = useState(0);
+  const [mileTwoTime, setMileTwoTime] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
+  const [date, setDate] = useState(0);
 
   useEffect(() => {
     async function fetchMurph() {
@@ -30,19 +57,77 @@ export const Murph = () => {
         });
 
         let data = await res.json();
-        setMurph(data);
+
+        setFname(data.user.fname);
+        setLname(data.user.lname);
+        setMileOneTime(data.mileOneTime);
+        setCalisthenicsTime(data.calisthenicsTime);
+        setMileTwoTime(data.mileTwoTime);
+        setTotalTime(data.totalTime);
+        setDate(data.date);
       } catch (error) {
         console.log(error);
       }
     }
     fetchMurph();
-  }, []);
+  }, [id]);
 
   return (
     <MurphStyle>
       <Container>
         <h1>Murph</h1>
-        <p>{murph.totalTime}</p>
+
+        <Grid>
+          <h3>User</h3>
+          <p>
+            {fname} {lname}
+          </p>
+
+          <h3>1st Mile Time</h3>
+          <p>
+            {
+              new Date(mileOneTime * 1000)
+                .toUTCString()
+                .match(/(\d\d:\d\d:\d\d)/)[0]
+            }
+          </p>
+
+          <h3>Calisthenics Time</h3>
+          <p>
+            {
+              new Date(calisthenicsTime * 1000)
+                .toUTCString()
+                .match(/(\d\d:\d\d:\d\d)/)[0]
+            }
+          </p>
+
+          <h3>2nd Mile Time</h3>
+          <p>
+            {
+              new Date(mileTwoTime * 1000)
+                .toUTCString()
+                .match(/(\d\d:\d\d:\d\d)/)[0]
+            }
+          </p>
+
+          <h3>Total Time</h3>
+          <p>
+            {
+              new Date(totalTime * 1000)
+                .toUTCString()
+                .match(/(\d\d:\d\d:\d\d)/)[0]
+            }
+          </p>
+
+          <h3>Date</h3>
+          <p>
+            {new Intl.DateTimeFormat("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "2-digit",
+            }).format(new Date(date))}
+          </p>
+        </Grid>
       </Container>
     </MurphStyle>
   );

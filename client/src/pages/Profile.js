@@ -207,7 +207,7 @@ export const Profile = ({ history }) => {
               <tr>
                 <th>1st Mile Time</th>
                 <th>Calisthenics Time</th>
-                <th>2nd Time</th>
+                <th>2nd Mile Time</th>
                 <th>Total Time</th>
                 <th>Date</th>
               </tr>
