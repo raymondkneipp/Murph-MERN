@@ -13,6 +13,13 @@ const ProfileStyles = styled.div`
     display: grid;
     grid-template-columns: 1fr 3fr;
   }
+
+  & h1 {
+    text-align: center;
+    color: #a0aec0;
+    font-weight: bold;
+    font-size: 2rem;
+  }
 `;
 
 const User = styled.div`
@@ -56,6 +63,18 @@ const User = styled.div`
   }
 `;
 
+const Backdrop = styled.div`
+  margin: 1rem 0;
+  background-color: #a0aec0;
+  border-radius: 100%;
+  padding: 3rem;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Table = styled.table`
   margin: auto;
   border-collapse: collapse;
@@ -79,11 +98,10 @@ const Table = styled.table`
       border-right: 0;
     }
 
-    &:first-child {
-      text-align: center;
-    }
-
-    &:nth-child(3) {
+    &:first-child,
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4) {
       text-align: center;
     }
   }
@@ -136,13 +154,15 @@ export const Profile = ({ history }) => {
       }
     }
     getUsersMurphs();
-  }, [isAuthenticated, history]);
+  }, [isAuthenticated, history, state.user]);
 
   return (
     <ProfileStyles>
       <Container>
         <User>
-          <FontAwesomeIcon icon={faUser} size="6x" color="#4a5568" />
+          <Backdrop>
+            <FontAwesomeIcon icon={faUser} size="6x" color="#4a5568" />
+          </Backdrop>
           <h3>
             {state.user && state.user.fname}{" "}
             <span>{state.user && state.user.lname}</span>
@@ -153,36 +173,39 @@ export const Profile = ({ history }) => {
           </h4>
         </User>
 
-        <Table>
-          <thead>
-            <tr>
-              <th>1st Mile Time</th>
-              <th>Calisthenics Time</th>
-              <th>2nd Time</th>
-              <th>Total Time</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usersMurphs.map((murph) => {
-              return (
-                <tr key={murph._id}>
-                  <td>{murph.mileOneTime}</td>
-                  <td>{murph.calisthenicsTime}</td>
-                  <td>{murph.mileTwoTime}</td>
-                  <td>{murph.totalTime}</td>
-                  <td>
-                    {new Intl.DateTimeFormat("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "2-digit",
-                    }).format(new Date(murph.date))}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        <div>
+          <h1>My Murphs</h1>
+          <Table>
+            <thead>
+              <tr>
+                <th>1st Mile Time</th>
+                <th>Calisthenics Time</th>
+                <th>2nd Time</th>
+                <th>Total Time</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usersMurphs.map((murph) => {
+                return (
+                  <tr key={murph._id}>
+                    <td>{murph.mileOneTime}</td>
+                    <td>{murph.calisthenicsTime}</td>
+                    <td>{murph.mileTwoTime}</td>
+                    <td>{murph.totalTime}</td>
+                    <td>
+                      {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "2-digit",
+                      }).format(new Date(murph.date))}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </Container>
     </ProfileStyles>
   );

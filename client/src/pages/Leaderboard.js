@@ -44,10 +44,7 @@ const Table = styled.table`
       border-right: 0;
     }
 
-    &:first-child {
-      text-align: center;
-    }
-
+    &:first-child,
     &:nth-child(3) {
       text-align: center;
     }
