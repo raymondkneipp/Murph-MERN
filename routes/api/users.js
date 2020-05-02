@@ -12,16 +12,12 @@ const User = require("../../models/User");
 router.post(
   "/",
   [
-    check("fname", "First name is required")
-      .not()
-      .isEmpty(),
-    check("lname", "Last name is required")
-      .not()
-      .isEmpty(),
+    check("fname", "First name is required").not().isEmpty(),
+    check("lname", "Last name is required").not().isEmpty(),
     check("email", "Please enter a valid email").isEmail(),
     check("password", "Password must be at least 6 characters long").isLength({
-      min: 6
-    })
+      min: 6,
+    }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -43,7 +39,7 @@ router.post(
         fname,
         lname,
         email,
-        password
+        password,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -54,8 +50,8 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       jwt.sign(
@@ -73,5 +69,21 @@ router.post(
     }
   }
 );
+
+// @route		GET api/users/:id
+// @desc		Get user data including murphs
+// @access	Public
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate(
+      "murphs",
+      "_id mileOneTime calisthenicsTime mileTwoTime totalTime date"
+    );
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
 
 module.exports = router;

@@ -66,7 +66,7 @@ const Table = styled.table`
   }
 `;
 
-export const Leaderboard = () => {
+export const Leaderboard = ({ history }) => {
   const [murphs, setMurphs] = useState([]);
 
   useEffect(() => {
@@ -107,7 +107,10 @@ export const Leaderboard = () => {
           <tbody>
             {murphs.map((murph, index) => {
               return (
-                <tr key={murph._id}>
+                <tr
+                  key={murph._id}
+                  onClick={() => history.push(`/murph/${murph._id}`)}
+                >
                   <td>{index + 1}</td>
                   <td>
                     {murph.user.fname} {murph.user.lname}

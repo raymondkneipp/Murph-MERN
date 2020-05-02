@@ -66,17 +66,16 @@ router.get("/", async (req, res) => {
 });
 
 // @route		GET api/murphs/id
-// @desc		Get all murphs from specific user
+// @desc		Get single murph
 // @access	Public
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
-      .select("murphs")
-      .populate(
-        "murphs",
-        "_id mileOneTime calisthenicsTime mileTwoTime totalTime date"
-      );
-    res.json(user.murphs);
+    const murph = await Murph.findById(req.params.id).populate(
+      "user",
+      "_id fname lname"
+    );
+
+    res.json(murph);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");

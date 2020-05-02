@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { Navbar } from "./components/Navbar";
 import { Home } from "./pages/Home";
 import { Leaderboard } from "./pages/Leaderboard";
+import { Murph } from "./pages/Murph";
 import { Profile } from "./pages/Profile";
 import { SignIn } from "./pages/SignIn";
 import { SignOut } from "./pages/SignOut";
@@ -69,6 +70,7 @@ function App() {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/signout" component={SignOut} />
           <Route exact path="/leaderboard" component={Leaderboard} />
+          <Route exact path="/murph/:id" component={Murph} />
           <Route render={() => <Redirect to="/" />} />
         </Switch>
       </Router>

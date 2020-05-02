@@ -135,7 +135,7 @@ export const Profile = ({ history }) => {
     async function getUsersMurphs() {
       try {
         if (state.user) {
-          let res = await fetch(`/api/murphs/${state.user._id}`, {
+          let res = await fetch(`/api/users/${state.user._id}`, {
             method: "get",
             headers: {
               "Content-Type": "application/json",
@@ -145,7 +145,7 @@ export const Profile = ({ history }) => {
           let data = await res.json();
 
           if (res.ok) {
-            setUsersMurphs(data);
+            setUsersMurphs(data.murphs);
           } else {
             throw data;
           }
@@ -189,7 +189,10 @@ export const Profile = ({ history }) => {
             <tbody>
               {usersMurphs.map((murph) => {
                 return (
-                  <tr key={murph._id}>
+                  <tr
+                    key={murph._id}
+                    onClick={() => history.push(`/murph/${murph._id}`)}
+                  >
                     <td>{murph.mileOneTime}</td>
                     <td>{murph.calisthenicsTime}</td>
                     <td>{murph.mileTwoTime}</td>
