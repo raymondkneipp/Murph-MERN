@@ -12,6 +12,7 @@ const ProfileStyles = styled.div`
   & > div {
     display: grid;
     grid-template-columns: 1fr;
+    grid-column-gap: 2rem;
   }
 
   @media (min-width: 60em) {
