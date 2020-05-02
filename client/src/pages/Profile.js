@@ -1,6 +1,107 @@
+import { faCalendarAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 import { Container } from "../components/Container";
 import { AuthContext } from "../Store";
+
+const ProfileStyles = styled.div`
+  display: flex;
+  flex: 1;
+
+  & > div {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+  }
+`;
+
+const User = styled.div`
+  background-color: #2d3748;
+  padding: 0.8rem 1rem;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  & svg {
+    margin: 1rem 0;
+  }
+
+  & h3 {
+    color: #fff;
+    font-size: 1.7rem;
+    text-align: center;
+    font-weight: normal;
+    margin: 0;
+
+    & span {
+      color: #a0aec0;
+      font-weight: normal;
+      font-size: 1.4rem;
+    }
+  }
+
+  & h4 {
+    color: #a0aec0;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: normal;
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+    & svg {
+      margin-right: 0.5rem;
+    }
+  }
+`;
+
+const Table = styled.table`
+  margin: auto;
+  border-collapse: collapse;
+
+  & > thead {
+    color: #63b3ed;
+  }
+
+  & th {
+    border-bottom: 0.1rem solid #4a5568;
+    padding: 0.8rem 1rem;
+  }
+
+  & td {
+    border-bottom: 0.1rem solid #4a5568;
+    border-right: 0.1rem solid #4a5568;
+    padding: 0.8rem 1rem;
+    color: #a0aec0;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    &:first-child {
+      text-align: center;
+    }
+
+    &:nth-child(3) {
+      text-align: center;
+    }
+  }
+
+  & tbody {
+    & tr {
+      cursor: pointer;
+
+      &:hover {
+        background-color: #4a5568;
+      }
+    }
+
+    & tr:last-child td {
+      border-bottom: 0;
+    }
+  }
+`;
 
 export const Profile = ({ history }) => {
   const { state } = useContext(AuthContext);
@@ -38,54 +139,51 @@ export const Profile = ({ history }) => {
   }, [isAuthenticated, history]);
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 mx-2">
+    <ProfileStyles>
       <Container>
-        <div className="bg-gray-800 py-4 px-8 mb-6 shadow rounded-lg flex flex-col items-center box-border">
-          <h3 className="text-2xl font-medium text-gray-100 max-w-xs text-center mb-2">
+        <User>
+          <FontAwesomeIcon icon={faUser} size="6x" color="#4a5568" />
+          <h3>
             {state.user && state.user.fname}{" "}
-            <span className="text-base text-gray-500">
-              {state.user && state.user.lname}
-            </span>
+            <span>{state.user && state.user.lname}</span>
           </h3>
-          <h4 className="text-gray-100 text-center mb-2">
-            Joined:{" "}
-            <span className="text-gray-500">
-              {state.user && new Date(state.user.date).toDateString()}
-            </span>
+          <h4>
+            <FontAwesomeIcon icon={faCalendarAlt} color="#a0aec0" />{" "}
+            {state.user && new Date(state.user.date).toDateString()}
           </h4>
+        </User>
 
-          <table className="table-auto">
-            <thead>
-              <tr>
-                <th>1st Mile Time</th>
-                <th>Calisthenics Time</th>
-                <th>2nd Time</th>
-                <th>Total Time</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usersMurphs.map((murph) => {
-                return (
-                  <tr key={murph._id}>
-                    <td>{murph.mileOneTime}</td>
-                    <td>{murph.calisthenicsTime}</td>
-                    <td>{murph.mileTwoTime}</td>
-                    <td>{murph.totalTime}</td>
-                    <td>
-                      {new Intl.DateTimeFormat("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "2-digit",
-                      }).format(new Date(murph.date))}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <Table>
+          <thead>
+            <tr>
+              <th>1st Mile Time</th>
+              <th>Calisthenics Time</th>
+              <th>2nd Time</th>
+              <th>Total Time</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usersMurphs.map((murph) => {
+              return (
+                <tr key={murph._id}>
+                  <td>{murph.mileOneTime}</td>
+                  <td>{murph.calisthenicsTime}</td>
+                  <td>{murph.mileTwoTime}</td>
+                  <td>{murph.totalTime}</td>
+                  <td>
+                    {new Intl.DateTimeFormat("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "2-digit",
+                    }).format(new Date(murph.date))}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
       </Container>
-    </div>
+    </ProfileStyles>
   );
 };

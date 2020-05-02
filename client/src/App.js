@@ -17,7 +17,7 @@ import { Workout } from "./pages/Workout";
 import { AuthContext } from "./Store";
 
 const Wrapper = styled.div`
-  background-color: #1a202c;
+  background-image: linear-gradient(to right, #1a202c, #11151d);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
