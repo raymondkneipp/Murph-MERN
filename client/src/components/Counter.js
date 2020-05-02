@@ -111,11 +111,8 @@ export const Counter = ({ exercise, max, increments }) => {
           +{increments[3]}
         </button>
       </Buttons>
-      <ProgressBar className="bg-gray-800 h-1 w-full flex-1 rounded-full mt-2">
-        <div
-          className="bg-blue-500 h-1 flex-1 rounded-full mt-1"
-          style={{ width: `${percentage}%` }}
-        ></div>
+      <ProgressBar>
+        <div style={{ width: `${percentage}%` }}></div>
       </ProgressBar>
     </CouterStyle>
   );
