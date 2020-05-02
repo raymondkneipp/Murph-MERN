@@ -109,6 +109,7 @@ const Table = styled.table`
   & tbody {
     & tr {
       cursor: pointer;
+      transition: all 0.2s;
 
       &:hover {
         background-color: #4a5568;
