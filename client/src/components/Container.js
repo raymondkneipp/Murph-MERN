@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   @media (min-width: 24em) {
     max-width: 24em;
   }
+
   @media (min-width: 36em) {
     max-width: 36em;
   }

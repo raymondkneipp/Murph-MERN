@@ -11,7 +11,13 @@ const ProfileStyles = styled.div`
 
   & > div {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 60em) {
+    & > div {
+      grid-template-columns: 1fr 3fr;
+    }
   }
 
   & h1 {
@@ -78,6 +84,26 @@ const Backdrop = styled.div`
 const Table = styled.table`
   margin: auto;
   border-collapse: collapse;
+
+  & tr th:nth-child(1),
+  & tr th:nth-child(2),
+  & tr th:nth-child(3),
+  & tr td:nth-child(1),
+  & tr td:nth-child(2),
+  & tr td:nth-child(3) {
+    display: none;
+  }
+
+  @media (min-width: 36em) {
+    & tr th:nth-child(1),
+    & tr th:nth-child(2),
+    & tr th:nth-child(3),
+    & tr td:nth-child(1),
+    & tr td:nth-child(2),
+    & tr td:nth-child(3) {
+      display: table-cell;
+    }
+  }
 
   & > thead {
     color: #63b3ed;
@@ -193,10 +219,34 @@ export const Profile = ({ history }) => {
                     key={murph._id}
                     onClick={() => history.push(`/murph/${murph._id}`)}
                   >
-                    <td>{murph.mileOneTime}</td>
-                    <td>{murph.calisthenicsTime}</td>
-                    <td>{murph.mileTwoTime}</td>
-                    <td>{murph.totalTime}</td>
+                    <td>
+                      {
+                        new Date(murph.mileOneTime * 1000)
+                          .toUTCString()
+                          .match(/(\d\d:\d\d:\d\d)/)[0]
+                      }
+                    </td>
+                    <td>
+                      {
+                        new Date(murph.calisthenicsTime * 1000)
+                          .toUTCString()
+                          .match(/(\d\d:\d\d:\d\d)/)[0]
+                      }
+                    </td>
+                    <td>
+                      {
+                        new Date(murph.mileTwoTime * 1000)
+                          .toUTCString()
+                          .match(/(\d\d:\d\d:\d\d)/)[0]
+                      }
+                    </td>
+                    <td>
+                      {
+                        new Date(murph.totalTime * 1000)
+                          .toUTCString()
+                          .match(/(\d\d:\d\d:\d\d)/)[0]
+                      }
+                    </td>
                     <td>
                       {new Intl.DateTimeFormat("en-US", {
                         year: "numeric",
