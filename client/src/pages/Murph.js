@@ -3,7 +3,17 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
 
-const MurphStyle = styled.div``;
+const MurphStyle = styled.div`
+  display: flex;
+  flex: 1;
+
+  & h1 {
+    text-align: center;
+    color: #a0aec0;
+    font-weight: bold;
+    font-size: 2rem;
+  }
+`;
 
 export const Murph = () => {
   const { id } = useParams();
@@ -29,9 +39,11 @@ export const Murph = () => {
   }, []);
 
   return (
-    <Container>
-      <h1>Murph</h1>
-      <p>{murph.totalTime}</p>
-    </Container>
+    <MurphStyle>
+      <Container>
+        <h1>Murph</h1>
+        <p>{murph.totalTime}</p>
+      </Container>
+    </MurphStyle>
   );
 };
