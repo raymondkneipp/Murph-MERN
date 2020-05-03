@@ -50,32 +50,13 @@ export const AuthState = ({ children }) => {
   };
 
   const register = async (newUser) => {
-    const { fname, lname, email, password } = newUser;
-
     try {
-      let res = await fetch("/api/users", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fname,
-          lname,
-          email,
-          password,
-        }),
+      const res = await axios.post("/api/users", newUser);
+
+      dispatch({
+        type: "LOGIN",
+        payload: res.data,
       });
-
-      let data = await res.json();
-
-      if (res.ok) {
-        dispatch({
-          type: "LOGIN",
-          payload: data,
-        });
-      } else {
-        throw data;
-      }
     } catch (error) {
       console.log(error);
       // Dispatch error

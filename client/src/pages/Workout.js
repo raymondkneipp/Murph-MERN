@@ -7,6 +7,7 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -156,22 +157,9 @@ export const Workout = ({ history }) => {
 
         async function saveMurph(murph) {
           try {
-            let res = await fetch("/api/murphs", {
-              method: "post",
-              headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": `${localStorage.getItem("token")}`,
-              },
-              body: JSON.stringify(murph),
-            });
+            await axios.post("/api/murphs", murph);
 
-            let data = await res.json();
-
-            if (res.ok) {
-              setSaved(true);
-            } else {
-              throw data;
-            }
+            setSaved(true);
           } catch (error) {
             console.error("Error Saving Murph");
             console.error(error);

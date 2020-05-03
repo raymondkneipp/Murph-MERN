@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -50,22 +51,15 @@ export const Murph = () => {
   useEffect(() => {
     async function fetchMurph() {
       try {
-        let res = await fetch(`/api/murphs/${id}`, {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await axios.get(`/api/murphs/${id}`);
 
-        let data = await res.json();
-
-        setFname(data.user.fname);
-        setLname(data.user.lname);
-        setMileOneTime(data.mileOneTime);
-        setCalisthenicsTime(data.calisthenicsTime);
-        setMileTwoTime(data.mileTwoTime);
-        setTotalTime(data.totalTime);
-        setDate(data.date);
+        setFname(res.data.user.fname);
+        setLname(res.data.user.lname);
+        setMileOneTime(res.data.mileOneTime);
+        setCalisthenicsTime(res.data.calisthenicsTime);
+        setMileTwoTime(res.data.mileTwoTime);
+        setTotalTime(res.data.totalTime);
+        setDate(res.data.date);
       } catch (error) {
         console.log(error);
       }

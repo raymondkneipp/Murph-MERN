@@ -1,5 +1,6 @@
 import { faCalendarAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
@@ -159,20 +160,9 @@ export const Profile = ({ history }) => {
     async function getUsersMurphs() {
       try {
         if (user) {
-          let res = await fetch(`/api/users/${user._id}`, {
-            method: "get",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const res = await axios.get(`/api/users/${user._id}`);
 
-          let data = await res.json();
-
-          if (res.ok) {
-            setUsersMurphs(data.murphs);
-          } else {
-            throw data;
-          }
+          setUsersMurphs(res.data.murphs);
         }
       } catch (error) {
         console.log(error);
