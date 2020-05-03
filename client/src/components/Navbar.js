@@ -108,7 +108,7 @@ const LinksList = styled.div`
 `;
 
 const Greeting = styled.div`
-  color: #4a5568;
+  color: #a0aec0;
   margin-right: 1rem;
   font-style: italic;
   display: flex;
