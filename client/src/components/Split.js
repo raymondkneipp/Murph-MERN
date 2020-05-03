@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { formatTime } from "../util/time";
+import { formatTime } from "../util/format";
 
-const LapsStyle = styled.div`
+const SplitStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,21 +28,21 @@ const LapsStyle = styled.div`
   }
 `;
 
-export const Laps = ({ laps }) => {
+export const Split = ({ splits }) => {
   return (
     <>
-      {laps.map((lap) => {
+      {splits.map((lap, index) => {
         const { minutes, seconds } = formatTime(
           lap.time.start,
           lap.time.finish
         );
         return (
-          <LapsStyle key={lap.text}>
-            <h4 className="text-sm text-gray-500">{lap.text}</h4>
-            <h3 className="text-lg text-white font-bold">
+          <SplitStyle key={index}>
+            <h4>{lap.text}</h4>
+            <h3>
               {minutes}:{seconds}
             </h3>
-          </LapsStyle>
+          </SplitStyle>
         );
       })}
     </>

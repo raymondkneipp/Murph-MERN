@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
-import { Errors } from "../components/Errors";
-import { AuthContext } from "../Store";
+import AuthContext from "../context/auth/authContext";
 
 const SignInStyle = styled.div`
   flex: 1;
@@ -74,10 +73,8 @@ const SignInButton = styled.button`
 export const SignIn = ({ history }) => {
   const [email, setEmail] = useState("raymond.f.kneipp@gmail.com");
   const [password, setPassword] = useState("123456");
-  const [errors, setErrors] = useState([]);
 
-  const { dispatch, state } = useContext(AuthContext);
-  const { isAuthenticated } = state;
+  const { isAuthenticated, login } = useContext(AuthContext);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -88,40 +85,15 @@ export const SignIn = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      let res = await fetch("/api/auth", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      let data = await res.json();
-
-      if (res.ok) {
-        setErrors([]);
-        dispatch({
-          type: "LOGIN",
-          payload: data,
-        });
-
-        history.push("/profile");
-      } else {
-        throw data;
-      }
-    } catch (error) {
-      setErrors(error["errors"]);
-    }
+    login({
+      email,
+      password,
+    });
   };
 
   return (
     <SignInStyle>
       <Container>
-        <Errors errors={errors} />
         <h1>
           <FontAwesomeIcon icon={faSignInAlt} /> Sign In
         </h1>

@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
 import { CounterGroup } from "../components/CounterGroup";
-import { Laps } from "../components/Laps";
+import { Split } from "../components/Split";
 import { Timer } from "../components/Timer";
-import { AuthContext } from "../Store";
+import AuthContext from "../context/auth/authContext";
 
 const WorkoutStyle = styled.div`
   flex: 1;
@@ -100,11 +100,10 @@ export const Workout = ({ history }) => {
   const [startTime] = useState(new Date());
   const [running, setRunning] = useState(true);
   const [stage, setStage] = useState(1);
-  const [laps, setLaps] = useState([]);
+  const [splits, setSplits] = useState([]);
   const [saved, setSaved] = useState(false);
 
-  const { state } = useContext(AuthContext);
-  const { isAuthenticated } = state;
+  const { isAuthenticated } = useContext(AuthContext);
 
   const handleClick = () => {
     setStage(stage + 1);
@@ -113,7 +112,7 @@ export const Workout = ({ history }) => {
     }
 
     if (stage === 1) {
-      setLaps([
+      setSplits([
         {
           text: "First Mile",
           time: { start: startTime, finish: new Date() },
@@ -122,12 +121,12 @@ export const Workout = ({ history }) => {
     }
 
     if (stage === 2) {
-      setLaps([
-        ...laps,
+      setSplits([
+        ...splits,
         {
           text: "Calisthenics",
           time: {
-            start: laps[0].time.finish,
+            start: splits[0].time.finish,
             finish: new Date(),
           },
         },
@@ -135,12 +134,12 @@ export const Workout = ({ history }) => {
     }
 
     if (stage === 3) {
-      setLaps([
-        ...laps,
+      setSplits([
+        ...splits,
         {
           text: "Second Mile",
           time: {
-            start: laps[1].time.finish,
+            start: splits[1].time.finish,
             finish: new Date(),
           },
         },
@@ -149,9 +148,9 @@ export const Workout = ({ history }) => {
       // Add Murph to database if logged in
       if (isAuthenticated) {
         const murph = {
-          mileOneTime: laps[0].time.finish - startTime,
-          calisthenicsTime: laps[1].time.finish - laps[1].time.start,
-          mileTwoTime: new Date() - laps[1].time.finish,
+          mileOneTime: splits[0].time.finish - startTime,
+          calisthenicsTime: splits[1].time.finish - splits[1].time.start,
+          mileTwoTime: new Date() - splits[1].time.finish,
           totalTime: new Date() - startTime,
         };
 
@@ -202,7 +201,7 @@ export const Workout = ({ history }) => {
             <FontAwesomeIcon icon={faArrowLeft} /> Back to Home
           </Link>
         )}
-        <Laps laps={laps} />
+        <Split splits={splits} />
         <Timer running={running} startTime={startTime} />
         {stage === 1 && (
           <>

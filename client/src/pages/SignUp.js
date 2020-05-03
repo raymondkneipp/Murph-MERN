@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
-import { Errors } from "../components/Errors";
-import { AuthContext } from "../Store";
+import AuthContext from "../context/auth/authContext";
 
 const SignUpStyle = styled.div`
   flex: 1;
@@ -77,10 +76,8 @@ export const SignUp = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState([]);
 
-  const { dispatch, state } = useContext(AuthContext);
-  const { isAuthenticated } = state;
+  const { isAuthenticated, register } = useContext(AuthContext);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -92,43 +89,20 @@ export const SignUp = ({ history }) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setErrors([...errors, { msg: "Passwords do not match" }]);
+      // setErrors([...errors, { msg: "Passwords do not match" }]);
     } else {
-      try {
-        let res = await fetch("/api/users", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            fname,
-            lname,
-            email,
-            password,
-          }),
-        });
-
-        let data = await res.json();
-
-        if (res.ok) {
-          setErrors([]);
-          dispatch({
-            type: "LOGIN",
-            payload: data,
-          });
-        } else {
-          throw data;
-        }
-      } catch (error) {
-        setErrors(error["errors"]);
-      }
+      register({
+        fname,
+        lname,
+        email,
+        password,
+      });
     }
   };
 
   return (
     <SignUpStyle>
       <Container>
-        <Errors errors={errors} />
         <h1>
           <FontAwesomeIcon icon={faUserPlus} /> Sign Up
         </h1>

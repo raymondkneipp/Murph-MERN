@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { formatTime } from "../util/time";
+import { formatTime } from "../util/format";
 
 const TimerStyle = styled.div`
   color: #63b3ed;

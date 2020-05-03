@@ -12,7 +12,7 @@ import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/img/logo.svg";
-import { AuthContext } from "../Store";
+import AuthContext from "../context/auth/authContext";
 import { Container } from "./Container";
 
 const Nav = styled.nav`
@@ -92,17 +92,25 @@ const LinksList = styled.div`
         background-color: #63b3ed;
       }
     }
+  }
 
-    &.secondaryButton {
-      border: 0.1rem solid #fc8181;
-      color: #fc8181;
-      border-radius: 5rem;
-      padding: 0.4rem 0.6rem;
+  & .secondaryButton {
+    border: 0.1rem solid #fc8181;
+    color: #fc8181;
+    border-radius: 5rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    margin: 0.3rem 0.2rem;
+    background-color: transparent;
+    cursor: pointer;
 
-      &:hover {
-        color: #1a202c;
-        background-color: #fc8181;
-      }
+    &:hover {
+      color: #1a202c;
+      background-color: #fc8181;
     }
   }
 `;
@@ -132,8 +140,7 @@ const Menu = styled.div`
 `;
 
 export const Navbar = () => {
-  const { state } = useContext(AuthContext);
-  const { isAuthenticated, user } = state;
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 
   return (
@@ -180,14 +187,16 @@ export const Navbar = () => {
               <NavLink to="/profile" onClick={() => setOpen(false)}>
                 <FontAwesomeIcon icon={faChartPie} /> Profile
               </NavLink>
-              <NavLink
+              <button
                 className="secondaryButton"
-                to="/signout"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  logout();
+                }}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 Sign Out
-              </NavLink>
+              </button>
             </>
           )}
         </LinksList>

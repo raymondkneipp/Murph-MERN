@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
-import { formatDate, msToTime } from "../util/time";
+import { formatDate, msToTime } from "../util/format";
 
 const MurphStyle = styled.div`
   display: flex;

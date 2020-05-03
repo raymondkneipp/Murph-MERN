@@ -12,11 +12,8 @@ const List = styled.ul`
   list-style: none;
   padding: 1rem 0;
   margin: 1rem;
-  /* border-left: 0.2rem solid #a0aec0; */
 
   & li {
-    /* margin-left: -0.75rem; */
-    /* margin-bottom: 2rem; */
     margin-bottom: 0.5rem;
     color: #a0aec0;
 

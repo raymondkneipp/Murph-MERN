@@ -1,9 +1,10 @@
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
-import { formatDate, msToTime } from "../util/time";
+import { formatDate, msToTime } from "../util/format";
 
 const LeaderboardsStyle = styled.div`
   flex: 1;
@@ -85,15 +86,9 @@ export const Leaderboard = ({ history }) => {
   useEffect(() => {
     async function fetchMurphs() {
       try {
-        let res = await fetch("/api/murphs", {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await axios.get("/api/murphs");
 
-        let data = await res.json();
-        setMurphs(data);
+        setMurphs(res.data);
       } catch (error) {
         console.log(error);
       }

@@ -26,37 +26,37 @@ const Details = styled.div`
   }
 `;
 
-const Buttons = styled.div`
+const ButtonGroup = styled.div`
   display: flex;
   margin: 0.5rem 0;
+`;
 
-  & button {
-    flex: 1;
-    background-color: #2d3748;
-    border: 0;
-    color: #a0aec0;
-    padding: 1.3rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin: 0;
+const Button = styled.button`
+  flex: 1;
+  background-color: #2d3748;
+  border: 0;
+  color: #a0aec0;
+  padding: 1.3rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0;
 
-    &:hover {
-      background-color: #4a5568;
-      color: #fff;
-    }
+  &:hover {
+    background-color: #4a5568;
+    color: #fff;
+  }
 
-    &:focus {
-      outline: 0;
-    }
+  &:focus {
+    outline: 0;
+  }
 
-    &:first-child {
-      border-radius: 5rem 0 0 5rem;
-    }
+  &:first-child {
+    border-radius: 5rem 0 0 5rem;
+  }
 
-    &:last-child {
-      border-radius: 0 5rem 5rem 0;
-    }
+  &:last-child {
+    border-radius: 0 5rem 5rem 0;
   }
 `;
 
@@ -98,20 +98,20 @@ export const Counter = ({ exercise, max, increments }) => {
           {reps} / {max}
         </p>
       </Details>
-      <Buttons>
-        <button onClick={() => handleClick(increments[0])}>
+      <ButtonGroup>
+        <Button onClick={() => handleClick(increments[0])}>
           +{increments[0]}
-        </button>
-        <button onClick={() => handleClick(increments[1])}>
+        </Button>
+        <Button onClick={() => handleClick(increments[1])}>
           +{increments[1]}
-        </button>
-        <button onClick={() => handleClick(increments[2])}>
+        </Button>
+        <Button onClick={() => handleClick(increments[2])}>
           +{increments[2]}
-        </button>
-        <button onClick={() => handleClick(increments[3])}>
+        </Button>
+        <Button onClick={() => handleClick(increments[3])}>
           +{increments[3]}
-        </button>
-      </Buttons>
+        </Button>
+      </ButtonGroup>
       <ProgressBar>
         <div style={{ width: `${percentage}%` }}></div>
       </ProgressBar>

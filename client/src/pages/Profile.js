@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
-import { AuthContext } from "../Store";
-import { formatDate, msToTime } from "../util/time";
+import AuthContext from "../context/auth/authContext";
+import { formatDate, msToTime } from "../util/format";
 
 const ProfileStyles = styled.div`
   display: flex;
@@ -37,6 +37,7 @@ const User = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  align-self: flex-start;
 
   & svg {
     margin: 1rem 0;
@@ -151,19 +152,14 @@ const Table = styled.table`
 `;
 
 export const Profile = ({ history }) => {
-  const { state } = useContext(AuthContext);
-  const { isAuthenticated } = state;
+  const { isAuthenticated, user } = useContext(AuthContext);
   const [usersMurphs, setUsersMurphs] = useState([]);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      history.push("/signin");
-    }
-
     async function getUsersMurphs() {
       try {
-        if (state.user) {
-          let res = await fetch(`/api/users/${state.user._id}`, {
+        if (user) {
+          let res = await fetch(`/api/users/${user._id}`, {
             method: "get",
             headers: {
               "Content-Type": "application/json",
@@ -182,8 +178,13 @@ export const Profile = ({ history }) => {
         console.log(error);
       }
     }
-    getUsersMurphs();
-  }, [isAuthenticated, history, state.user]);
+
+    if (!isAuthenticated) {
+      history.push("/signin");
+    } else {
+      getUsersMurphs();
+    }
+  }, [isAuthenticated, history, user]);
 
   return (
     <ProfileStyles>
@@ -193,12 +194,11 @@ export const Profile = ({ history }) => {
             <FontAwesomeIcon icon={faUser} size="6x" color="#4a5568" />
           </Backdrop>
           <h3>
-            {state.user && state.user.fname}{" "}
-            <span>{state.user && state.user.lname}</span>
+            {user && user.fname} <span>{user && user.lname}</span>
           </h3>
           <h4>
             <FontAwesomeIcon icon={faCalendarAlt} color="#a0aec0" />{" "}
-            {state.user && new Date(state.user.date).toDateString()}
+            {user && new Date(user.date).toDateString()}
           </h4>
         </User>
 

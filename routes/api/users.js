@@ -77,7 +77,9 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate(
       "murphs",
-      "_id mileOneTime calisthenicsTime mileTwoTime totalTime date"
+      "_id mileOneTime calisthenicsTime mileTwoTime totalTime date",
+      null,
+      { sort: { date: -1 } }
     );
     res.json(user);
   } catch (error) {
