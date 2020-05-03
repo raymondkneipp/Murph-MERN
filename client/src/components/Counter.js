@@ -39,6 +39,7 @@ const Buttons = styled.div`
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
+    margin: 0;
 
     &:hover {
       background-color: #4a5568;
