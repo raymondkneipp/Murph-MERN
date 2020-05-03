@@ -4,6 +4,7 @@ import {
   faCheck,
   faRunning,
   faThumbsUp,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState } from "react";
@@ -32,6 +33,13 @@ const WorkoutStyle = styled.div`
     font-size: 1.5rem;
     text-align: center;
     margin: 2rem 0;
+  }
+
+  & p {
+    color: #a0aec0;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0;
   }
 
   & a {
@@ -88,11 +96,12 @@ const BackButton = styled.button`
   }
 `;
 
-export const Workout = () => {
+export const Workout = ({ history }) => {
   const [startTime] = useState(new Date());
   const [running, setRunning] = useState(true);
   const [stage, setStage] = useState(1);
   const [laps, setLaps] = useState([]);
+  const [saved, setSaved] = useState(false);
 
   const { state } = useContext(AuthContext);
   const { isAuthenticated } = state;
@@ -160,7 +169,7 @@ export const Workout = () => {
             let data = await res.json();
 
             if (res.ok) {
-              console.log("saved");
+              setSaved(true);
             } else {
               throw data;
             }
@@ -215,6 +224,13 @@ export const Workout = () => {
           <>
             <FontAwesomeIcon color="#63b3ed" size="4x" icon={faThumbsUp} />
             <h2>Congratulations</h2>
+            {isAuthenticated ? (
+              <>{saved && <p>Workout Saved!</p>}</>
+            ) : (
+              <Button onClick={() => history.push("/signup")}>
+                <FontAwesomeIcon icon={faUserPlus} /> Sign Up and Save Workouts
+              </Button>
+            )}
           </>
         )}
         {stage !== 4 && stage !== 3 && (
