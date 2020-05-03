@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
 import { AuthContext } from "../Store";
+import { formatDate, msToTime } from "../util/time";
 
 const ProfileStyles = styled.div`
   display: flex;
@@ -220,41 +221,11 @@ export const Profile = ({ history }) => {
                     key={murph._id}
                     onClick={() => history.push(`/murph/${murph._id}`)}
                   >
-                    <td>
-                      {
-                        new Date(murph.mileOneTime * 1000)
-                          .toUTCString()
-                          .match(/(\d\d:\d\d:\d\d)/)[0]
-                      }
-                    </td>
-                    <td>
-                      {
-                        new Date(murph.calisthenicsTime * 1000)
-                          .toUTCString()
-                          .match(/(\d\d:\d\d:\d\d)/)[0]
-                      }
-                    </td>
-                    <td>
-                      {
-                        new Date(murph.mileTwoTime * 1000)
-                          .toUTCString()
-                          .match(/(\d\d:\d\d:\d\d)/)[0]
-                      }
-                    </td>
-                    <td>
-                      {
-                        new Date(murph.totalTime * 1000)
-                          .toUTCString()
-                          .match(/(\d\d:\d\d:\d\d)/)[0]
-                      }
-                    </td>
-                    <td>
-                      {new Intl.DateTimeFormat("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "2-digit",
-                      }).format(new Date(murph.date))}
-                    </td>
+                    <td>{msToTime(murph.mileOneTime)}</td>
+                    <td>{msToTime(murph.calisthenicsTime)}</td>
+                    <td>{msToTime(murph.mileTwoTime)}</td>
+                    <td>{msToTime(murph.totalTime)}</td>
+                    <td>{formatDate(murph.date)}</td>
                   </tr>
                 );
               })}

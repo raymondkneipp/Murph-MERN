@@ -10,14 +10,32 @@ export const formatTime = (start, end) => {
     .toString()
     .padStart(2, "0");
 
-  const milliseconds = (end - start)
-    .toString()
-    .slice(-3, -1)
-    .padEnd(2, "0");
+  const milliseconds = (end - start).toString().slice(-3, -1).padEnd(2, "0");
 
   return {
     minutes,
     seconds,
-    milliseconds
+    milliseconds,
   };
+};
+
+export const msToTime = (duration) => {
+  var milliseconds = parseInt((duration % 1000) / 100),
+    seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+  hours = hours < 10 ? "0" + hours : hours;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+
+  return `${hours}:${minutes}:${seconds}`; // .${milliseconds}
+};
+
+export const formatDate = (date) => {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  }).format(new Date(date));
 };

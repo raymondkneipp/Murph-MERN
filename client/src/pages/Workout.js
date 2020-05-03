@@ -6,13 +6,14 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
 import { CounterGroup } from "../components/CounterGroup";
 import { Laps } from "../components/Laps";
 import { Timer } from "../components/Timer";
+import { AuthContext } from "../Store";
 
 const WorkoutStyle = styled.div`
   flex: 1;
@@ -90,10 +91,11 @@ const BackButton = styled.button`
 export const Workout = () => {
   const [startTime] = useState(new Date());
   const [running, setRunning] = useState(true);
-
   const [stage, setStage] = useState(1);
-
   const [laps, setLaps] = useState([]);
+
+  const { state } = useContext(AuthContext);
+  const { isAuthenticated } = state;
 
   const handleClick = () => {
     setStage(stage + 1);
@@ -134,6 +136,42 @@ export const Workout = () => {
           },
         },
       ]);
+
+      // Add Murph to database if logged in
+      if (isAuthenticated) {
+        const murph = {
+          mileOneTime: laps[0].time.finish - startTime,
+          calisthenicsTime: laps[1].time.finish - laps[1].time.start,
+          mileTwoTime: new Date() - laps[1].time.finish,
+          totalTime: new Date() - startTime,
+        };
+
+        async function saveMurph(murph) {
+          try {
+            let res = await fetch("/api/murphs", {
+              method: "post",
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": `${localStorage.getItem("token")}`,
+              },
+              body: JSON.stringify(murph),
+            });
+
+            let data = await res.json();
+
+            if (res.ok) {
+              console.log("saved");
+            } else {
+              throw data;
+            }
+          } catch (error) {
+            console.error("Error Saving Murph");
+            console.error(error);
+          }
+        }
+
+        saveMurph(murph);
+      }
     }
   };
 

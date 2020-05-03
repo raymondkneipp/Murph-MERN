@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
+import { formatDate, msToTime } from "../util/time";
 
 const MurphStyle = styled.div`
   display: flex;
@@ -84,49 +85,19 @@ export const Murph = () => {
           </p>
 
           <h3>1st Mile Time</h3>
-          <p>
-            {
-              new Date(mileOneTime * 1000)
-                .toUTCString()
-                .match(/(\d\d:\d\d:\d\d)/)[0]
-            }
-          </p>
+          <p>{msToTime(mileOneTime)}</p>
 
           <h3>Calisthenics Time</h3>
-          <p>
-            {
-              new Date(calisthenicsTime * 1000)
-                .toUTCString()
-                .match(/(\d\d:\d\d:\d\d)/)[0]
-            }
-          </p>
+          <p>{msToTime(calisthenicsTime)}</p>
 
           <h3>2nd Mile Time</h3>
-          <p>
-            {
-              new Date(mileTwoTime * 1000)
-                .toUTCString()
-                .match(/(\d\d:\d\d:\d\d)/)[0]
-            }
-          </p>
+          <p>{msToTime(mileTwoTime)}</p>
 
           <h3>Total Time</h3>
-          <p>
-            {
-              new Date(totalTime * 1000)
-                .toUTCString()
-                .match(/(\d\d:\d\d:\d\d)/)[0]
-            }
-          </p>
+          <p>{msToTime(totalTime)}</p>
 
           <h3>Date</h3>
-          <p>
-            {new Intl.DateTimeFormat("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "2-digit",
-            }).format(new Date(date))}
-          </p>
+          <p>{formatDate(date)}</p>
         </Grid>
       </Container>
     </MurphStyle>

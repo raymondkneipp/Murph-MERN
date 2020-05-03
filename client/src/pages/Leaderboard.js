@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
+import { formatDate, msToTime } from "../util/time";
 
 const LeaderboardsStyle = styled.div`
   flex: 1;
@@ -127,20 +128,8 @@ export const Leaderboard = ({ history }) => {
                   <td>
                     {murph.user.fname} {murph.user.lname}
                   </td>
-                  <td>
-                    {
-                      new Date(murph.totalTime * 1000)
-                        .toUTCString()
-                        .match(/(\d\d:\d\d:\d\d)/)[0]
-                    }
-                  </td>
-                  <td>
-                    {new Intl.DateTimeFormat("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "2-digit",
-                    }).format(new Date(murph.date))}
-                  </td>
+                  <td>{msToTime(murph.totalTime)}</td>
+                  <td>{formatDate(murph.date)}</td>
                 </tr>
               );
             })}

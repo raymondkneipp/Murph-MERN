@@ -72,7 +72,7 @@ const SignInButton = styled.button`
 `;
 
 export const SignIn = ({ history }) => {
-  const [email, setEmail] = useState("ray@kay.com");
+  const [email, setEmail] = useState("raymond.f.kneipp@gmail.com");
   const [password, setPassword] = useState("123456");
   const [errors, setErrors] = useState([]);
 
