@@ -12,7 +12,9 @@ const User = require("../../models/User");
 // @access	Private
 router.get("/", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id)
+      .select("-password -email")
+      .populate("murphs", "-user", null, { sort: { date: -1 } });
     res.json(user);
   } catch (error) {
     console.error(error.message);
@@ -27,7 +29,7 @@ router.post(
   "/",
   [
     check("email", "Email is not valid").isEmail(),
-    check("password", "Password is required").exists()
+    check("password", "Password is required").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -56,8 +58,8 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       jwt.sign(

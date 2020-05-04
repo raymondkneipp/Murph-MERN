@@ -160,7 +160,7 @@ export const Profile = ({ history }) => {
     async function getUsersMurphs() {
       try {
         if (user) {
-          const res = await axios.get(`/api/users/${user._id}`);
+          const res = await axios.get("/api/auth/");
 
           setUsersMurphs(res.data.murphs);
         }

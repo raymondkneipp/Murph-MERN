@@ -57,7 +57,7 @@ router.get("/", async (req, res) => {
   try {
     const murphs = await Murph.find()
       .sort({ totalTime: 1 })
-      .populate("user", { fname: 1, lname: 1 });
+      .populate("user", "fname lname");
     res.json(murphs);
   } catch (error) {
     console.error(error.message);

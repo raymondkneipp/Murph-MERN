@@ -75,16 +75,13 @@ router.post(
 // @access	Public
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).populate(
-      "murphs",
-      "_id mileOneTime calisthenicsTime mileTwoTime totalTime date",
-      null,
-      { sort: { date: -1 } }
-    );
+    const user = await User.findById(req.params.id)
+      .select("-email -password")
+      .populate("murphs", "-user", null, { sort: { date: -1 } });
     res.json(user);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server error");
+    return res.status(500).send("Server error");
   }
 });
 

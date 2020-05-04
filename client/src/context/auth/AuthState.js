@@ -9,6 +9,7 @@ export const AuthState = ({ children }) => {
     isAuthenticated: false,
     user: null,
     token: null,
+    error: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -45,7 +46,10 @@ export const AuthState = ({ children }) => {
 
       loadUser();
     } catch (error) {
-      dispatch({ type: "AUTH_ERROR" });
+      dispatch({
+        type: "AUTH_ERROR",
+        payload: error.response.data.errors[0].msg,
+      });
     }
   };
 
@@ -71,6 +75,7 @@ export const AuthState = ({ children }) => {
         isAuthenticated: state.isAuthenticated,
         user: state.user,
         token: state.token,
+        errors: state.errors,
         loadUser,
         login,
         register,
