@@ -21,6 +21,7 @@ export const formatTime = (start, end) => {
 
 export const msToTime = (duration) => {
   // let milliseconds = parseInt((duration % 1000) / 100);
+  const milliseconds = duration.toString().slice(-3, -1).padEnd(2, "0");
   let seconds = Math.floor((duration / 1000) % 60);
   let minutes = Math.floor((duration / (1000 * 60)) % 60);
   let hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
@@ -29,7 +30,9 @@ export const msToTime = (duration) => {
   minutes = minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
 
-  return `${hours}:${minutes}:${seconds}`; // .${milliseconds}
+  return `${
+    hours === "00" ? "" : hours + ":"
+  }${minutes}:${seconds}.${milliseconds}`;
 };
 
 export const formatDate = (date) => {

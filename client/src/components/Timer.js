@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import WorkoutContext from "../context/workout/workoutContext";
 import { formatTime } from "../util/format";
 
 const TimerStyle = styled.div`
@@ -10,10 +11,12 @@ const TimerStyle = styled.div`
   margin: 2rem 0;
 `;
 
-export const Timer = ({ running, startTime }) => {
+export const Timer = ({ running }) => {
   const [minutes, setMinutes] = useState("00");
   const [seconds, setSeconds] = useState("00");
   const [milliSeconds, setMilliSeconds] = useState("00");
+
+  const { startTime } = useContext(WorkoutContext);
 
   useEffect(() => {
     let interval;

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { formatTime } from "../util/format";
+import WorkoutContext from "../context/workout/workoutContext";
+import { msToTime } from "../util/format";
 
 const SplitStyle = styled.div`
   display: flex;
@@ -28,23 +29,34 @@ const SplitStyle = styled.div`
   }
 `;
 
-export const Split = ({ splits }) => {
+export const Split = () => {
+  const {
+    startTime,
+    firstMileFinishTime,
+    calisthenicsFinishTime,
+    secondMileFinishTime,
+  } = useContext(WorkoutContext);
+
   return (
     <>
-      {splits.map((lap, index) => {
-        const { minutes, seconds } = formatTime(
-          lap.time.start,
-          lap.time.finish
-        );
-        return (
-          <SplitStyle key={index}>
-            <h4>{lap.text}</h4>
-            <h3>
-              {minutes}:{seconds}
-            </h3>
-          </SplitStyle>
-        );
-      })}
+      {startTime && firstMileFinishTime && (
+        <SplitStyle>
+          <h4>First Mile</h4>
+          <h3>{msToTime(firstMileFinishTime - startTime)}</h3>
+        </SplitStyle>
+      )}
+      {firstMileFinishTime && calisthenicsFinishTime && (
+        <SplitStyle>
+          <h4>Calisthenics</h4>
+          <h3>{msToTime(calisthenicsFinishTime - firstMileFinishTime)}</h3>
+        </SplitStyle>
+      )}
+      {calisthenicsFinishTime && secondMileFinishTime && (
+        <SplitStyle>
+          <h4>Second Mile</h4>
+          <h3>{msToTime(secondMileFinishTime - calisthenicsFinishTime)}</h3>
+        </SplitStyle>
+      )}
     </>
   );
 };

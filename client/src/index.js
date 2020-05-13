@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { createGlobalStyle } from "styled-components";
 import App from "./App";
 import { AuthState } from "./context/auth/AuthState";
+import { WorkoutState } from "./context/workout/WorkoutState";
 import * as serviceWorker from "./serviceWorker";
 
 const GlobalStyle = createGlobalStyle`
@@ -38,8 +39,10 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
   <AuthState>
-    <GlobalStyle />
-    <App />
+    <WorkoutState>
+      <GlobalStyle />
+      <App />
+    </WorkoutState>
   </AuthState>,
   document.getElementById("root")
 );

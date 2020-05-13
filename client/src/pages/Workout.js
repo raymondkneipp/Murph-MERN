@@ -7,8 +7,7 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
@@ -16,6 +15,7 @@ import { CounterGroup } from "../components/CounterGroup";
 import { Split } from "../components/Split";
 import { Timer } from "../components/Timer";
 import AuthContext from "../context/auth/authContext";
+import WorkoutContext from "../context/workout/workoutContext";
 
 const WorkoutStyle = styled.div`
   flex: 1;
@@ -98,73 +98,59 @@ const BackButton = styled.button`
 `;
 
 export const Workout = ({ history }) => {
-  const [startTime] = useState(new Date());
   const [running, setRunning] = useState(true);
   const [stage, setStage] = useState(1);
-  const [splits, setSplits] = useState([]);
   const [saved, setSaved] = useState(false);
 
   const { isAuthenticated } = useContext(AuthContext);
+  const {
+    startTime,
+    firstMileFinishTime,
+    calisthenicsFinishTime,
+    secondMileFinishTime,
+    setStartTime,
+    setFirstMileFinishTime,
+    setCalisthenicsFinishTime,
+    setSecondMileFinishTime,
+    saveMurph,
+    clearWorkout,
+  } = useContext(WorkoutContext);
+
+  // When component mounts set start time
+  useEffect(() => {
+    setStartTime(new Date());
+
+    return () => {
+      clearWorkout();
+    };
+    // eslint-disable-next-line
+  }, []);
 
   const handleClick = () => {
     setStage(stage + 1);
-    if (stage === 3) {
-      setRunning(false);
-    }
 
     if (stage === 1) {
-      setSplits([
-        {
-          text: "First Mile",
-          time: { start: startTime, finish: new Date() },
-        },
-      ]);
+      setFirstMileFinishTime(new Date());
     }
 
     if (stage === 2) {
-      setSplits([
-        ...splits,
-        {
-          text: "Calisthenics",
-          time: {
-            start: splits[0].time.finish,
-            finish: new Date(),
-          },
-        },
-      ]);
+      setCalisthenicsFinishTime(new Date());
     }
 
     if (stage === 3) {
-      setSplits([
-        ...splits,
-        {
-          text: "Second Mile",
-          time: {
-            start: splits[1].time.finish,
-            finish: new Date(),
-          },
-        },
-      ]);
+      setSecondMileFinishTime(new Date());
+
+      // Stop timer
+      setRunning(false);
 
       // Add Murph to database if logged in
       if (isAuthenticated) {
         const murph = {
-          mileOneTime: splits[0].time.finish - startTime,
-          calisthenicsTime: splits[1].time.finish - splits[1].time.start,
-          mileTwoTime: new Date() - splits[1].time.finish,
+          mileOneTime: firstMileFinishTime - startTime,
+          calisthenicsTime: calisthenicsFinishTime - firstMileFinishTime,
+          mileTwoTime: new Date() - calisthenicsFinishTime,
           totalTime: new Date() - startTime,
         };
-
-        async function saveMurph(murph) {
-          try {
-            await axios.post("/api/murphs", murph);
-
-            setSaved(true);
-          } catch (error) {
-            console.error("Error Saving Murph");
-            console.error(error);
-          }
-        }
 
         saveMurph(murph);
       }
@@ -189,8 +175,8 @@ export const Workout = ({ history }) => {
             <FontAwesomeIcon icon={faArrowLeft} /> Back to Home
           </Link>
         )}
-        <Split splits={splits} />
-        <Timer running={running} startTime={startTime} />
+        <Split />
+        <Timer running={running} />
         {stage === 1 && (
           <>
             <FontAwesomeIcon size="4x" color="#63b3ed" icon={faRunning} />
