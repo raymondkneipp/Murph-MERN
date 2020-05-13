@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
+import { Loading } from "../components/Loading";
 import { formatDate, msToTime } from "../util/format";
 
 const LeaderboardsStyle = styled.div`
@@ -82,18 +83,25 @@ const Table = styled.table`
 
 export const Leaderboard = ({ history }) => {
   const [murphs, setMurphs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     async function fetchMurphs() {
       try {
         const res = await axios.get("/api/murphs");
 
-        setMurphs(res.data);
+        if (mounted) {
+          setMurphs(res.data);
+          setLoading(false);
+        }
       } catch (error) {
         console.log(error);
       }
     }
     fetchMurphs();
+
+    return () => (mounted = false);
   }, []);
 
   return (
@@ -103,33 +111,37 @@ export const Leaderboard = ({ history }) => {
           <FontAwesomeIcon icon={faTrophy} />
           Leaderboard
         </h1>
-        <Table>
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>User</th>
-              <th>Total Time</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {murphs.map((murph, index) => {
-              return (
-                <tr
-                  key={murph._id}
-                  onClick={() => history.push(`/murph/${murph._id}`)}
-                >
-                  <td>{index + 1}</td>
-                  <td>
-                    {murph.user.fname} {murph.user.lname}
-                  </td>
-                  <td>{msToTime(murph.totalTime)}</td>
-                  <td>{formatDate(murph.date)}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Total Time</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {murphs.map((murph, index) => {
+                return (
+                  <tr
+                    key={murph._id}
+                    onClick={() => history.push(`/murph/${murph._id}`)}
+                  >
+                    <td>{index + 1}</td>
+                    <td>
+                      {murph.user.fname} {murph.user.lname}
+                    </td>
+                    <td>{msToTime(murph.totalTime)}</td>
+                    <td>{formatDate(murph.date)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        )}
       </Container>
     </LeaderboardsStyle>
   );

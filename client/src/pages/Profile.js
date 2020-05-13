@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/Container";
+import { Loading } from "../components/Loading";
 import AuthContext from "../context/auth/authContext";
 import { formatDate, msToTime } from "../util/format";
 
@@ -39,6 +40,7 @@ const User = styled.div`
   align-items: center;
   flex-direction: column;
   align-self: flex-start;
+  margin-top: 1.5rem;
 
   & svg {
     margin: 1rem 0;
@@ -155,14 +157,19 @@ const Table = styled.table`
 export const Profile = ({ history }) => {
   const { isAuthenticated, user } = useContext(AuthContext);
   const [usersMurphs, setUsersMurphs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     async function getUsersMurphs() {
       try {
         if (user) {
           const res = await axios.get("/api/auth/");
 
-          setUsersMurphs(res.data.murphs);
+          if (mounted) {
+            setUsersMurphs(res.data.murphs);
+            setLoading(false);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -174,6 +181,8 @@ export const Profile = ({ history }) => {
     } else {
       getUsersMurphs();
     }
+
+    return () => (mounted = false);
   }, [isAuthenticated, history, user]);
 
   return (
@@ -194,33 +203,37 @@ export const Profile = ({ history }) => {
 
         <div>
           <h1>My Murphs</h1>
-          <Table>
-            <thead>
-              <tr>
-                <th>1st Mile Time</th>
-                <th>Calisthenics Time</th>
-                <th>2nd Mile Time</th>
-                <th>Total Time</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usersMurphs.map((murph) => {
-                return (
-                  <tr
-                    key={murph._id}
-                    onClick={() => history.push(`/murph/${murph._id}`)}
-                  >
-                    <td>{msToTime(murph.mileOneTime)}</td>
-                    <td>{msToTime(murph.calisthenicsTime)}</td>
-                    <td>{msToTime(murph.mileTwoTime)}</td>
-                    <td>{msToTime(murph.totalTime)}</td>
-                    <td>{formatDate(murph.date)}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+          {loading ? (
+            <Loading />
+          ) : (
+            <Table>
+              <thead>
+                <tr>
+                  <th>1st Mile Time</th>
+                  <th>Calisthenics Time</th>
+                  <th>2nd Mile Time</th>
+                  <th>Total Time</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usersMurphs.map((murph) => {
+                  return (
+                    <tr
+                      key={murph._id}
+                      onClick={() => history.push(`/murph/${murph._id}`)}
+                    >
+                      <td>{msToTime(murph.mileOneTime)}</td>
+                      <td>{msToTime(murph.calisthenicsTime)}</td>
+                      <td>{msToTime(murph.mileTwoTime)}</td>
+                      <td>{msToTime(murph.totalTime)}</td>
+                      <td>{formatDate(murph.date)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          )}
         </div>
       </Container>
     </ProfileStyles>

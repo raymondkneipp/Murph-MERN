@@ -71,7 +71,7 @@ const SignInButton = styled.button`
 `;
 
 export const SignIn = ({ history }) => {
-  const [email, setEmail] = useState("raymond.f.kneipp@gmail.com");
+  const [email, setEmail] = useState("ray@kay.com");
   const [password, setPassword] = useState("123456");
 
   const { isAuthenticated, login } = useContext(AuthContext);

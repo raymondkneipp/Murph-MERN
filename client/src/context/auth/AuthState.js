@@ -48,7 +48,7 @@ export const AuthState = ({ children }) => {
     } catch (error) {
       dispatch({
         type: "AUTH_ERROR",
-        payload: error.response.data.errors[0].msg,
+        payload: error,
       });
     }
   };

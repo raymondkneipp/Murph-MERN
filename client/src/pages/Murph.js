@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
+import { Loading } from "../components/Loading";
 import { formatDate, msToTime } from "../util/format";
 
 const MurphStyle = styled.div`
@@ -48,6 +49,8 @@ export const Murph = () => {
   const [totalTime, setTotalTime] = useState(0);
   const [date, setDate] = useState(0);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function fetchMurph() {
       try {
@@ -60,6 +63,8 @@ export const Murph = () => {
         setMileTwoTime(res.data.mileTwoTime);
         setTotalTime(res.data.totalTime);
         setDate(res.data.date);
+
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -72,27 +77,31 @@ export const Murph = () => {
       <Container>
         <h1>Murph</h1>
 
-        <Grid>
-          <h3>User</h3>
-          <p>
-            {fname} {lname}
-          </p>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Grid>
+            <h3>User</h3>
+            <p>
+              {fname} {lname}
+            </p>
 
-          <h3>1st Mile Time</h3>
-          <p>{msToTime(mileOneTime)}</p>
+            <h3>1st Mile Time</h3>
+            <p>{msToTime(mileOneTime)}</p>
 
-          <h3>Calisthenics Time</h3>
-          <p>{msToTime(calisthenicsTime)}</p>
+            <h3>Calisthenics Time</h3>
+            <p>{msToTime(calisthenicsTime)}</p>
 
-          <h3>2nd Mile Time</h3>
-          <p>{msToTime(mileTwoTime)}</p>
+            <h3>2nd Mile Time</h3>
+            <p>{msToTime(mileTwoTime)}</p>
 
-          <h3>Total Time</h3>
-          <p>{msToTime(totalTime)}</p>
+            <h3>Total Time</h3>
+            <p>{msToTime(totalTime)}</p>
 
-          <h3>Date</h3>
-          <p>{formatDate(date)}</p>
-        </Grid>
+            <h3>Date</h3>
+            <p>{formatDate(date)}</p>
+          </Grid>
+        )}
       </Container>
     </MurphStyle>
   );
