@@ -15,9 +15,9 @@ import { Profile } from "./pages/Profile";
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { Workout } from "./pages/Workout";
+import { Errors } from "./components/Errors";
 
 const Wrapper = styled.div`
-  background-image: linear-gradient(to left, #1a202c, #11151d);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,6 +35,7 @@ function App() {
     <Wrapper>
       <Router>
         <Navbar />
+        <Errors />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/workout" component={Workout} />

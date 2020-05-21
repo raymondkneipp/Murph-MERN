@@ -53,10 +53,6 @@ export const WorkoutState = ({ children }) => {
       console.error("Error Saving Murph");
       console.error(error);
     }
-
-    dispatch({
-      type: "CLEAR_WORKOUT",
-    });
   };
 
   const clearWorkout = () => {

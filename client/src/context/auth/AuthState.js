@@ -9,7 +9,7 @@ export const AuthState = ({ children }) => {
     isAuthenticated: false,
     user: null,
     token: null,
-    error: null,
+    errors: [],
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -48,7 +48,7 @@ export const AuthState = ({ children }) => {
     } catch (error) {
       dispatch({
         type: "AUTH_ERROR",
-        payload: error,
+        payload: error.response.data.errors[0],
       });
     }
   };
@@ -62,12 +62,34 @@ export const AuthState = ({ children }) => {
         payload: res.data,
       });
     } catch (error) {
-      console.log(error);
-      // Dispatch error
+      dispatch({
+        type: "AUTH_ERROR",
+        payload: error.response.data.errors[0],
+      });
     }
   };
 
   const logout = async () => dispatch({ type: "LOGOUT" });
+
+  const deleteErrorAlert = (index) => {
+    dispatch({
+      type: "DELETE_ERROR",
+      payload: index,
+    });
+  };
+
+  const setError = (errObj) => {
+    dispatch({
+      type: "SET_ERROR",
+      payload: errObj,
+    });
+  };
+
+  const clearErrors = () => {
+    dispatch({
+      type: "CLEAR_ERRORS",
+    });
+  };
 
   return (
     <AuthContext.Provider
@@ -80,6 +102,9 @@ export const AuthState = ({ children }) => {
         login,
         register,
         logout,
+        deleteErrorAlert,
+        setError,
+        clearErrors,
       }}
     >
       {children}

@@ -40,9 +40,11 @@ const SignUpStyle = styled.div`
       padding: 0.8rem 1rem;
       font-size: 1rem;
       margin-bottom: 0.5rem;
+      transition: all 0.2s;
 
       &:focus {
         outline: 0;
+        box-shadow: 0 0 0 0.2rem #63b3ed;
       }
     }
   }
@@ -62,6 +64,7 @@ const SignUpButton = styled.button`
 
   &:focus {
     outline: 0;
+    box-shadow: 0 0 0 0.2rem #63b3ed;
   }
 
   &:hover {
@@ -77,7 +80,9 @@ export const SignUp = ({ history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { isAuthenticated, register } = useContext(AuthContext);
+  const { isAuthenticated, register, setError, clearErrors } = useContext(
+    AuthContext
+  );
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -88,8 +93,10 @@ export const SignUp = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    clearErrors();
+
     if (password !== confirmPassword) {
-      // setErrors([...errors, { msg: "Passwords do not match" }]);
+      setError({ msg: "Passwords do not match" });
     } else {
       register({
         fname,

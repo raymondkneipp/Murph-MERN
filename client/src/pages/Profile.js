@@ -1,7 +1,12 @@
-import { faCalendarAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarAlt,
+  faUser,
+  faHourglassStart,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../components/Container";
 import { Loading } from "../components/Loading";
@@ -32,6 +37,15 @@ const ProfileStyles = styled.div`
   }
 `;
 
+const Col = styled.div`
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+  align-self: flex-start;
+  margin-top: 1.5rem;
+`;
+
 const User = styled.div`
   background-color: #2d3748;
   padding: 0.8rem 1rem;
@@ -39,8 +53,7 @@ const User = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  align-self: flex-start;
-  margin-top: 1.5rem;
+  margin-bottom: 1rem;
 
   & svg {
     margin: 1rem 0;
@@ -154,6 +167,29 @@ const Table = styled.table`
   }
 `;
 
+const BeginButton = styled.div`
+  margin: 1rem auto;
+  & a {
+    color: #63b3ed;
+    transition: all 0.2s;
+    border: 0.1rem solid #63b3ed;
+    border-radius: 5rem;
+    text-decoration: none;
+    padding: 1rem 1.2rem;
+    font-size: 1.1rem;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #63b3ed;
+    }
+
+    &:hover {
+      color: #1a202c;
+      background-color: #63b3ed;
+    }
+  }
+`;
+
 export const Profile = ({ history }) => {
   const { isAuthenticated, user } = useContext(AuthContext);
   const [usersMurphs, setUsersMurphs] = useState([]);
@@ -188,18 +224,25 @@ export const Profile = ({ history }) => {
   return (
     <ProfileStyles>
       <Container>
-        <User>
-          <Backdrop>
-            <FontAwesomeIcon icon={faUser} size="6x" color="#4a5568" />
-          </Backdrop>
-          <h3>
-            {user && user.fname} <span>{user && user.lname}</span>
-          </h3>
-          <h4>
-            <FontAwesomeIcon icon={faCalendarAlt} color="#a0aec0" />{" "}
-            {user && new Date(user.date).toDateString()}
-          </h4>
-        </User>
+        <Col>
+          <User>
+            <Backdrop>
+              <FontAwesomeIcon icon={faUser} size="6x" color="#4a5568" />
+            </Backdrop>
+            <h3>
+              {user && user.fname} <span>{user && user.lname}</span>
+            </h3>
+            <h4>
+              <FontAwesomeIcon icon={faCalendarAlt} color="#a0aec0" />{" "}
+              {user && new Date(user.date).toDateString()}
+            </h4>
+          </User>
+          <BeginButton>
+            <Link to="/workout">
+              <FontAwesomeIcon icon={faHourglassStart} /> Begin Workout
+            </Link>
+          </BeginButton>
+        </Col>
 
         <div>
           <h1>My Murphs</h1>

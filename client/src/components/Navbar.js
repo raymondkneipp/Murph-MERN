@@ -6,6 +6,7 @@ import {
   faSignOutAlt,
   faTrophy,
   faUserPlus,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState } from "react";
@@ -37,7 +38,7 @@ const Nav = styled.nav`
 `;
 
 const LinksList = styled.div`
-  align-items: flex-start;
+  align-items: center;
   display: none;
   flex-direction: column;
   flex-basis: 100%;
@@ -67,9 +68,16 @@ const LinksList = styled.div`
     display: flex;
     align-items: center;
     margin: 0.3rem 0.2rem;
+    transition: all 0.2s;
+    border-radius: 100rem;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #63b3ed;
+    }
 
     & svg {
-      margin-right: 0.2rem;
+      margin-right: 0.5rem;
     }
 
     &.active {
@@ -108,6 +116,11 @@ const LinksList = styled.div`
     background-color: transparent;
     cursor: pointer;
 
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #63b3ed;
+    }
+
     &:hover {
       color: #1a202c;
       background-color: #fc8181;
@@ -121,15 +134,28 @@ const Greeting = styled.div`
   font-style: italic;
   display: flex;
   align-items: center;
+  font-size: 1rem;
 `;
 
 const Menu = styled.div`
   display: flex;
   align-items: center;
+  transition: all 0.2s;
+  border: 0;
+  background-color: transparent;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  justify-content: center;
+  cursor: pointer;
 
   & > svg {
     cursor: pointer;
     color: #a0aec0;
+    transition: color 0.2s;
+
+    &:hover {
+      color: white;
+    }
   }
 
   @media (min-width: 48em) {
@@ -150,13 +176,9 @@ export const Navbar = () => {
           <img src={logo} alt="Murph" />
         </NavLink>
 
-        <Menu>
+        <Menu onClick={() => setOpen(!open)}>
           {isAuthenticated && user && <Greeting>Welcome {user.fname}</Greeting>}
-          <FontAwesomeIcon
-            icon={faBars}
-            onClick={() => setOpen(!open)}
-            size="lg"
-          />
+          <FontAwesomeIcon icon={open ? faTimes : faBars} size="2x" />
         </Menu>
 
         <LinksList className={open ? "open" : ""}>

@@ -20,7 +20,7 @@ Start the backend server and start react app
 
 - Context API to Redux
 - Implement Passport
-- Display error messages to user
-- Loading component for API calls
+- Loading component for forms
 - 5 minute minimum for runs
 - 15 minute minimum for calisthenics
+- Error management

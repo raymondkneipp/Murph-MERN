@@ -79,6 +79,11 @@ const BeginButton = styled.div`
     padding: 1rem 1.2rem;
     font-size: 1.1rem;
 
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #63b3ed;
+    }
+
     &:hover {
       color: #1a202c;
       background-color: #63b3ed;
@@ -115,10 +120,7 @@ export const Home = () => {
         </List>
 
         <BeginButton>
-          <Link
-            to="/workout"
-            className="shadow rounded-full py-4 px-6 text-lg border-2 border-solid border-blue-400 text-blue-400"
-          >
+          <Link to="/workout">
             <FontAwesomeIcon icon={faHourglassStart} /> Begin Workout
           </Link>
         </BeginButton>

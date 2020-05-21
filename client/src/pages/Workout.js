@@ -49,6 +49,13 @@ const WorkoutStyle = styled.div`
     transition: all 0.2s;
     font-size: 0.9rem;
     margin: 1rem 0;
+    border-radius: 100rem;
+    padding: 0.2rem 0.4rem;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #63b3ed;
+    }
 
     &:hover {
       color: white;
@@ -56,7 +63,7 @@ const WorkoutStyle = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Button = styled.button`
   margin: 1rem auto;
 
   color: #63b3ed;
@@ -70,6 +77,7 @@ const Button = styled.div`
 
   &:focus {
     outline: 0;
+    box-shadow: 0 0 0 0.2rem #63b3ed;
   }
 
   &:hover {
@@ -87,20 +95,22 @@ const BackButton = styled.button`
   background-color: transparent;
   cursor: pointer;
   margin: 1rem 0;
+  border-radius: 100rem;
+  padding: 0.2rem 0.4rem;
 
   &:hover {
     color: white;
   }
 
   &:focus {
-    outline: none;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem #63b3ed;
   }
 `;
 
 export const Workout = ({ history }) => {
   const [running, setRunning] = useState(true);
   const [stage, setStage] = useState(1);
-  const [saved, setSaved] = useState(false);
 
   const { isAuthenticated } = useContext(AuthContext);
   const {
@@ -197,9 +207,7 @@ export const Workout = ({ history }) => {
           <>
             <FontAwesomeIcon color="#63b3ed" size="4x" icon={faThumbsUp} />
             <h2>Congratulations</h2>
-            {isAuthenticated ? (
-              <>{saved && <p>Workout Saved!</p>}</>
-            ) : (
+            {!isAuthenticated && (
               <Button onClick={() => history.push("/signup")}>
                 <FontAwesomeIcon icon={faUserPlus} /> Sign Up and Save Workouts
               </Button>

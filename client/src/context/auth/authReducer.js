@@ -15,7 +15,9 @@ export default (state, action) => {
         isAuthenticated: false,
         user: null,
         token: null,
-        error: action.payload,
+        errors: action.payload
+          ? [...state.errors, action.payload]
+          : [...state.errors],
       };
     case "USER_LOADED":
       return {
@@ -26,7 +28,17 @@ export default (state, action) => {
     case "CLEAR_ERRORS":
       return {
         ...state,
-        error: null,
+        errors: [],
+      };
+    case "SET_ERROR":
+      return {
+        ...state,
+        errors: [...state.errors, action.payload],
+      };
+    case "DELETE_ERROR":
+      return {
+        ...state,
+        errors: state.errors.filter((error, index) => index !== action.payload),
       };
     default:
       return state;

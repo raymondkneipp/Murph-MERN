@@ -49,6 +49,8 @@ const Button = styled.button`
 
   &:focus {
     outline: 0;
+    box-shadow: 0 0 0 0.2rem #63b3ed;
+    z-index: 10000;
   }
 
   &:first-child {
